@@ -36,7 +36,7 @@ jobs:
           # macOS builds
           - os: macos
             arch: x86_64
-            runner: macos-13  # Intel runner
+            runner: macos-15-intel  # Intel runner
             target: macos-x86_64
             cross: false
           - os: macos
@@ -156,7 +156,7 @@ jobs:
 
     # Upload artifacts
     - name: Upload binary artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: binaries-${{ matrix.target }}
         path: bins/${{ matrix.target }}/
@@ -235,7 +235,7 @@ jobs:
         EOF
 
     - name: Upload Android artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: binaries-android-${{ matrix.abi }}
         path: bins/android-${{ matrix.abi }}/
@@ -255,7 +255,7 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Download all binary artifacts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         path: downloaded-artifacts
 
