@@ -10,6 +10,10 @@ on:
       - 'wrappers/**'
       - '.github/workflows/build-bins.yml'
   
+  # Daily automated build at 00:00 UTC
+  schedule:
+    - cron: '0 0 * * *'  # Daily at midnight UTC
+
   # Manual trigger
   workflow_dispatch:
     inputs:
