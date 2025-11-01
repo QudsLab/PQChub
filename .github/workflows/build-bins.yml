@@ -244,6 +244,49 @@ jobs:
         # List all binaries
         echo "Built binaries:"
         find bins -type f \( -name "*.so" -o -name "*.dylib" -o -name "*.dll" \) -ls
+        
+        # Generate binaries metadata JSON
+        echo "Generating binaries.json..."
+        cat > bins/binaries.json << 'JSONEOF'
+        {
+          "version": "1.0.0",
+          "generated": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+          "pqclean_ref": "${{ env.PQCLEAN_REF }}",
+          "github_run": "${{ github.run_id }}",
+          "base_url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins",
+          "binaries": {
+        JSONEOF
+        
+        # Add each binary to JSON
+        first=true
+        for binary in $(find bins -type f \( -name "*.so" -o -name "*.dylib" -o -name "*.dll" \) | sort); do
+          platform=$(echo "$binary" | sed 's|bins/||' | sed 's|/.*||')
+          filename=$(basename "$binary")
+          size=$(stat -c%s "$binary" 2>/dev/null || stat -f%z "$binary" 2>/dev/null)
+          url="https://github.com/QudsLab/PQChub/raw/refs/heads/main/$binary"
+          
+          if [ "$first" = false ]; then
+            echo "," >> bins/binaries.json
+          fi
+          first=false
+          
+          cat >> bins/binaries.json << ITEMEOF
+            "$platform": {
+              "filename": "$filename",
+              "size": $size,
+              "url": "$url"
+            }
+        ITEMEOF
+        done
+        
+        cat >> bins/binaries.json << 'JSONEOF'
+
+          }
+        }
+        JSONEOF
+        
+        echo "Generated bins/binaries.json"
+        cat bins/binaries.json
 
     - name: Configure Git
       run: |

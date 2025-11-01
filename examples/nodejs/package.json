@@ -1,0 +1,24 @@
+{
+  "name": "pqchub-example",
+  "version": "1.0.0",
+  "description": "PQChub - Post-Quantum Cryptography auto-downloading wrapper",
+  "main": "pqchub.js",
+  "scripts": {
+    "demo": "node pqchub.js"
+  },
+  "keywords": [
+    "post-quantum",
+    "cryptography",
+    "pqc",
+    "falcon",
+    "kyber",
+    "dilithium",
+    "quantum-resistant"
+  ],
+  "author": "QudsLab",
+  "license": "MIT",
+  "dependencies": {
+    "ffi-napi": "^4.0.3",
+    "ref-napi": "^3.0.3"
+  }
+}

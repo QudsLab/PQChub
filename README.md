@@ -1,195 +1,387 @@
-# PQChub - Universal Post-Quantum Cryptography Binary Distribution
+# PQChub# PQChub - Universal Post-Quantum Cryptography Binary Distribution
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+
+**Universal Binary Distribution for Post-Quantum Cryptography**[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 [![Python Support](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://www.python.org/)
-[![PQClean](https://img.shields.io/badge/source-PQClean-green.svg)](https://github.com/PQClean/PQClean)
 
-> **⚠️ Current Status: Python Wrapper Only**  
-> This repository currently provides a complete Python wrapper for post-quantum cryptography algorithms.  
+PQChub provides pre-compiled, ready-to-use Post-Quantum Cryptography (PQC) binaries for multiple platforms. No compilation required - just download and use![![PQClean](https://img.shields.io/badge/source-PQClean-green.svg)](https://github.com/PQClean/PQClean)
+
+
+
+[![Build Status](https://github.com/QudsLab/PQChub/actions/workflows/build-bins.yml/badge.svg)](https://github.com/QudsLab/PQChub/actions/workflows/build-bins.yml)> **⚠️ Current Status: Python Wrapper Only**  
+
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)> This repository currently provides a complete Python wrapper for post-quantum cryptography algorithms.  
+
 > Pre-compiled binaries and other language wrappers are under development.
-
-**PQChub** is a universal binary distribution system for post-quantum cryptography (PQC) algorithms. It provides pre-compiled native libraries and easy-to-use language wrappers for Python, with planned support for Node.js, Go, Rust, Java, and C#.
 
 ## 🚀 Quick Start
 
-### Installation
+**PQChub** is a universal binary distribution system for post-quantum cryptography (PQC) algorithms. It provides pre-compiled native libraries and easy-to-use language wrappers for Python, with planned support for Node.js, Go, Rust, Java, and C#.
 
-Simply clone the repository and start using PQC algorithms immediately:
+### Python
 
-```bash
-git clone https://github.com/QudsLab/PQChub.git
-cd PQChub
-```
+```python## 🚀 Quick Start
 
-### Python Example
+# Download pqchub.py from examples/python/
 
-```python
-from wrappers.python import Kyber512, Dilithium2
+import pqchub### Installation
 
-# Key Encapsulation (Kyber)
-kyber = Kyber512()
-public_key, secret_key = kyber.keypair()
-ciphertext, shared_secret = kyber.encapsulate(public_key)
-decrypted_secret = kyber.decapsulate(ciphertext, secret_key)
-assert shared_secret == decrypted_secret
 
-# Digital Signatures (Dilithium)
-dilithium = Dilithium2()
-pk, sk = dilithium.keypair()
-message = b"Hello, post-quantum world!"
-signature = dilithium.sign(message, sk)
-assert dilithium.verify(message, signature, pk)
-```
 
-### Node.js Example
+# Auto-downloads correct binary for your platformSimply clone the repository and start using PQC algorithms immediately:
+
+falcon = pqchub.Falcon512()
+
+pk, sk = falcon.keypair()```bash
+
+signed = falcon.sign(b"Hello World", sk)git clone https://github.com/QudsLab/PQChub.git
+
+verified = falcon.verify(signed, pk)cd PQChub
+
+``````
+
+
+
+### Node.js### Python Example
 
 ```javascript
-const { Kyber512, Dilithium2 } = require('./wrappers/nodejs');
+
+// Install dependencies: npm install```python
+
+const { loadLibrary, Falcon512 } = require('./pqchub');from wrappers.python import Kyber512, Dilithium2
+
+
+
+// Auto-downloads correct binary for your platform# Key Encapsulation (Kyber)
+
+const lib = await loadLibrary();kyber = Kyber512()
+
+const falcon = new Falcon512(lib);public_key, secret_key = kyber.keypair()
+
+const { publicKey, secretKey } = falcon.keypair();ciphertext, shared_secret = kyber.encapsulate(public_key)
+
+```decrypted_secret = kyber.decapsulate(ciphertext, secret_key)
+
+assert shared_secret == decrypted_secret
+
+## 📦 Supported Platforms
+
+# Digital Signatures (Dilithium)
+
+| Platform | Architecture | Status |dilithium = Dilithium2()
+
+|----------|-------------|--------|pk, sk = dilithium.keypair()
+
+| Linux | x86_64 | ✅ Ready |message = b"Hello, post-quantum world!"
+
+| Linux | aarch64 | ✅ Ready |signature = dilithium.sign(message, sk)
+
+| macOS | x86_64 (Intel) | ✅ Ready |assert dilithium.verify(message, signature, pk)
+
+| macOS | ARM64 (Apple Silicon) | ✅ Ready |```
+
+| Windows | x64 | ✅ Ready |
+
+| Windows | x86 | ✅ Ready |### Node.js Example
+
+| Android | arm64-v8a | ✅ Ready |
+
+| Android | armeabi-v7a | ✅ Ready |```javascript
+
+| Android | x86_64 | ✅ Ready |const { Kyber512, Dilithium2 } = require('./wrappers/nodejs');
+
+| Android | x86 | ✅ Ready |
 
 // Key Encapsulation
-const kyber = new Kyber512();
+
+## 🔐 Supported Algorithmsconst kyber = new Kyber512();
+
 const { publicKey, secretKey } = kyber.keypair();
-const { ciphertext, sharedSecret } = kyber.encapsulate(publicKey);
-const decryptedSecret = kyber.decapsulate(ciphertext, secretKey);
+
+### Digital Signaturesconst { ciphertext, sharedSecret } = kyber.encapsulate(publicKey);
+
+- **Falcon-512** - Fast, compact signatures (NIST Level 1)const decryptedSecret = kyber.decapsulate(ciphertext, secretKey);
+
+- **Falcon-1024** - High security signatures (NIST Level 5)
 
 // Digital Signatures
-const dilithium = new Dilithium2();
-const keys = dilithium.keypair();
-const message = Buffer.from("Hello, post-quantum world!");
+
+### Coming Soonconst dilithium = new Dilithium2();
+
+- **Kyber** - Key Encapsulation Mechanism (KEM)const keys = dilithium.keypair();
+
+- **Dilithium** - Alternative digital signaturesconst message = Buffer.from("Hello, post-quantum world!");
+
 const signature = dilithium.sign(message, keys.secretKey);
-const isValid = dilithium.verify(message, signature, keys.publicKey);
+
+## 📚 Documentationconst isValid = dilithium.verify(message, signature, keys.publicKey);
+
 ```
 
-### Go Example
+- **[Examples](examples/)** - Ready-to-use code examples
 
-```go
-package main
+  - [Python Example](examples/python/) - Auto-downloading Python wrapper### Go Example
 
-import (
+  - [Node.js Example](examples/nodejs/) - Auto-downloading Node.js wrapper
+
+- **[Binaries](bins/)** - Pre-compiled binaries for all platforms```go
+
+- **[Tests](tests/)** - Test suite and validationpackage main
+
+
+
+## 🏗️ How It Worksimport (
+
     "github.com/QudsLab/PQChub/wrappers/go/pqc"
-)
 
-func main() {
+1. **Auto-Detection**: Automatically detects your platform (OS + architecture))
+
+2. **Smart Caching**: Downloads binaries once, caches locally (`~/.pqchub/`)
+
+3. **Direct Usage**: Loads binary via FFI/ctypes - no compilation neededfunc main() {
+
     // Key Encapsulation
-    kyber := pqc.NewKyber512()
+
+### Binary Metadata    kyber := pqc.NewKyber512()
+
     publicKey, secretKey, _ := kyber.Keypair()
-    ciphertext, sharedSecret, _ := kyber.Encapsulate(publicKey)
-    decryptedSecret, _ := kyber.Decapsulate(ciphertext, secretKey)
-    
-    // Digital Signatures
-    dilithium := pqc.NewDilithium2()
-    pk, sk, _ := dilithium.Keypair()
-    message := []byte("Hello, post-quantum world!")
-    signature, _ := dilithium.Sign(message, sk)
-    isValid, _ := dilithium.Verify(message, signature, pk)
-}
+
+All binaries are tracked in [`bins/binaries.json`](bins/binaries.json):    ciphertext, sharedSecret, _ := kyber.Encapsulate(publicKey)
+
+```json    decryptedSecret, _ := kyber.Decapsulate(ciphertext, secretKey)
+
+{    
+
+  "windows-x64": {    // Digital Signatures
+
+    "filename": "pqc.dll",    dilithium := pqc.NewDilithium2()
+
+    "size": 37376,    pk, sk, _ := dilithium.Keypair()
+
+    "url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins/windows-x64/pqc.dll"    message := []byte("Hello, post-quantum world!")
+
+  }    signature, _ := dilithium.Sign(message, sk)
+
+}    isValid, _ := dilithium.Verify(message, signature, pk)
+
+```}
+
 ```
+
+## 🔧 Building From Source
 
 ### Rust Example
 
-```rust
-use pqchub::{Kyber512, Dilithium2};
+Want to build binaries yourself?
 
-fn main() -> Result<(), Box<dyn std::error::Error>> {
-    // Key Encapsulation
+```rust
+
+```bashuse pqchub::{Kyber512, Dilithium2};
+
+# Clone repository
+
+git clone https://github.com/QudsLab/PQChub.gitfn main() -> Result<(), Box<dyn std::error::Error>> {
+
+cd PQChub    // Key Encapsulation
+
     let kyber = Kyber512::new()?;
-    let (public_key, secret_key) = kyber.keypair()?;
-    let (ciphertext, shared_secret) = kyber.encapsulate(&public_key)?;
+
+# Build for your platform    let (public_key, secret_key) = kyber.keypair()?;
+
+python scripts/build_native.py <platform> pqclean-source    let (ciphertext, shared_secret) = kyber.encapsulate(&public_key)?;
+
     let decrypted_secret = kyber.decapsulate(&ciphertext, &secret_key)?;
-    
-    // Digital Signatures
-    let dilithium = Dilithium2::new()?;
+
+# Platforms: windows-x64, windows-x86, linux-x86_64, linux-aarch64,     
+
+#            macos-x86_64, macos-arm64    // Digital Signatures
+
+```    let dilithium = Dilithium2::new()?;
+
     let (pk, sk) = dilithium.keypair()?;
-    let message = b"Hello, post-quantum world!";
+
+## 🧪 Testing    let message = b"Hello, post-quantum world!";
+
     let signature = dilithium.sign(message, &sk)?;
-    let is_valid = dilithium.verify(message, &signature, &pk)?;
-    
-    Ok(())
+
+```bash    let is_valid = dilithium.verify(message, &signature, &pk)?;
+
+# Run Python tests    
+
+python tests/test_python.py    Ok(())
+
 }
+
+# Tests automatically use correct binary for your platform```
+
 ```
 
 ## 🏗️ Architecture
 
+## 📖 Usage Examples
+
 ### Core Concept
 
-- **Build Once, Use Anywhere**: Native binaries compiled weekly via GitHub Actions
-- **Language Agnostic**: FFI wrappers for multiple programming languages
+### Python - Digital Signature
+
+```python- **Build Once, Use Anywhere**: Native binaries compiled weekly via GitHub Actions
+
+from pqchub import Falcon512- **Language Agnostic**: FFI wrappers for multiple programming languages
+
 - **Zero Compilation**: Users clone the repo and immediately use pre-built binaries
-- **Automated Updates**: CI/CD pipeline auto-updates binaries from [PQClean](https://github.com/PQClean/PQClean) upstream
+
+# Create instance- **Automated Updates**: CI/CD pipeline auto-updates binaries from [PQClean](https://github.com/PQClean/PQClean) upstream
+
+falcon = Falcon512()
 
 ### How It Works
 
-```
+# Generate keypair
+
+public_key, secret_key = falcon.keypair()```
+
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   PQClean       │───▶│   GitHub        │───▶│   Pre-compiled  │
-│   (upstream)    │    │   Actions       │    │   Binaries      │
-│                 │    │   (weekly)      │    │   (committed)   │
+
+# Sign message│   PQClean       │───▶│   GitHub        │───▶│   Pre-compiled  │
+
+message = b"Important document"│   (upstream)    │    │   Actions       │    │   Binaries      │
+
+signed_message = falcon.sign(message, secret_key)│                 │    │   (weekly)      │    │   (committed)   │
+
 └─────────────────┘    └─────────────────┘    └─────────────────┘
-                                                       │
-                                               ┌───────▼───────┐
-                                               │  Language     │
-                                               │  Wrappers     │
+
+# Verify signature                                                       │
+
+original_message = falcon.verify(signed_message, public_key)                                               ┌───────▼───────┐
+
+assert message == original_message  # Success!                                               │  Language     │
+
+```                                               │  Wrappers     │
+
                                                │  (FFI)        │
-                                               └───────────────┘
-```
+
+### Node.js - Digital Signature                                               └───────────────┘
+
+```javascript```
+
+const { loadLibrary, Falcon512 } = require('./pqchub');
 
 ## 📦 Supported Platforms
 
-| Platform | Architecture | Status | Binary |
-|----------|-------------|--------|---------|
-| **Linux** | x86_64 | ✅ | `libpqc.so` |
-| **Linux** | aarch64 | ✅ | `libpqc.so` |
-| **macOS** | x86_64 (Intel) | ✅ | `libpqc.dylib` |
-| **macOS** | arm64 (Apple Silicon) | ✅ | `libpqc.dylib` |
-| **Windows** | x64 | ✅ | `pqc.dll` |
-| **Windows** | x86 | ✅ | `pqc.dll` |
-| **Android** | arm64-v8a | ✅ | `libpqc.so` |
-| **Android** | armeabi-v7a | ✅ | `libpqc.so` |
-| **Android** | x86_64 | ✅ | `libpqc.so` |
-| **Android** | x86 | ✅ | `libpqc.so` |
+async function main() {
 
-## 🔐 Supported Algorithms
+    // Load library| Platform | Architecture | Status | Binary |
+
+    const lib = await loadLibrary();|----------|-------------|--------|---------|
+
+    const falcon = new Falcon512(lib);| **Linux** | x86_64 | ✅ | `libpqc.so` |
+
+    | **Linux** | aarch64 | ✅ | `libpqc.so` |
+
+    // Generate keypair| **macOS** | x86_64 (Intel) | ✅ | `libpqc.dylib` |
+
+    const { publicKey, secretKey } = falcon.keypair();| **macOS** | arm64 (Apple Silicon) | ✅ | `libpqc.dylib` |
+
+    | **Windows** | x64 | ✅ | `pqc.dll` |
+
+    // Sign message| **Windows** | x86 | ✅ | `pqc.dll` |
+
+    const message = Buffer.from('Important document');| **Android** | arm64-v8a | ✅ | `libpqc.so` |
+
+    const signed = falcon.sign(message, secretKey);| **Android** | armeabi-v7a | ✅ | `libpqc.so` |
+
+    | **Android** | x86_64 | ✅ | `libpqc.so` |
+
+    // Verify signature| **Android** | x86 | ✅ | `libpqc.so` |
+
+    const verified = falcon.verify(signed, publicKey);
+
+    console.log('Verified:', verified.toString());## 🔐 Supported Algorithms
+
+}
 
 All algorithms are sourced from the [PQClean](https://github.com/PQClean/PQClean) project, which provides reference implementations of NIST-approved post-quantum cryptography algorithms.
 
-### Key Encapsulation Mechanisms (KEM)
+main();
 
-| Algorithm | Security Level | Public Key | Secret Key | Ciphertext | Shared Secret |
+```### Key Encapsulation Mechanisms (KEM)
+
+
+
+## 🤝 Contributing| Algorithm | Security Level | Public Key | Secret Key | Ciphertext | Shared Secret |
+
 |-----------|---------------|------------|------------|------------|---------------|
-| **Kyber512** | 1 | 800 bytes | 1632 bytes | 768 bytes | 32 bytes |
+
+Contributions welcome! See our [GitHub Issues](https://github.com/QudsLab/PQChub/issues).| **Kyber512** | 1 | 800 bytes | 1632 bytes | 768 bytes | 32 bytes |
+
 | **Kyber768** | 3 | 1184 bytes | 2400 bytes | 1088 bytes | 32 bytes |
-| **Kyber1024** | 5 | 1568 bytes | 3168 bytes | 1568 bytes | 32 bytes |
 
-### Digital Signature Schemes
+### Areas for Contribution| **Kyber1024** | 5 | 1568 bytes | 3168 bytes | 1568 bytes | 32 bytes |
 
-| Algorithm | Security Level | Public Key | Secret Key | Signature |
+- Adding more algorithms (Kyber, Dilithium)
+
+- Language wrappers (Rust, Go, C#, Java)### Digital Signature Schemes
+
+- Performance optimizations
+
+- Documentation improvements| Algorithm | Security Level | Public Key | Secret Key | Signature |
+
 |-----------|---------------|------------|------------|-----------|
-| **Dilithium2** | 1 | 1312 bytes | 2528 bytes | ~2420 bytes |
-| **Dilithium3** | 3 | 1952 bytes | 4000 bytes | ~3293 bytes |
-| **Dilithium5** | 5 | 2592 bytes | 4864 bytes | ~4595 bytes |
-| **Falcon-512** | 1 | 897 bytes | 1281 bytes | ~690 bytes |
-| **Falcon-1024** | 5 | 1793 bytes | 2305 bytes | ~1330 bytes |
 
-## 🌍 Language Support
+## 📄 License| **Dilithium2** | 1 | 1312 bytes | 2528 bytes | ~2420 bytes |
+
+| **Dilithium3** | 3 | 1952 bytes | 4000 bytes | ~3293 bytes |
+
+MIT License - see the [LICENSE](LICENSE) file for details.| **Dilithium5** | 5 | 2592 bytes | 4864 bytes | ~4595 bytes |
+
+| **Falcon-512** | 1 | 897 bytes | 1281 bytes | ~690 bytes |
+
+## 🙏 Acknowledgments| **Falcon-1024** | 5 | 1793 bytes | 2305 bytes | ~1330 bytes |
+
+
+
+- **PQClean** - Clean, portable implementations of post-quantum cryptography## 🌍 Language Support
+
+- **NIST PQC** - Standardization project for post-quantum cryptography
 
 | Language | Status | Package Manager | Import |
-|----------|--------|----------------|---------|
+
+## 🔗 Links|----------|--------|----------------|---------|
+
 | **Python** | ✅ | `pip install -e .` | `from pqchub import Kyber512` |
-| **Node.js** | ✅ | `npm install` | `const { Kyber512 } = require('pqchub')` |
-| **Go** | ✅ | `go mod tidy` | `import "github.com/QudsLab/PQChub/wrappers/go/pqc"` |
-| **Rust** | ✅ | `cargo add pqchub` | `use pqchub::Kyber512;` |
+
+- [GitHub Repository](https://github.com/QudsLab/PQChub)| **Node.js** | ✅ | `npm install` | `const { Kyber512 } = require('pqchub')` |
+
+- [Issue Tracker](https://github.com/QudsLab/PQChub/issues)| **Go** | ✅ | `go mod tidy` | `import "github.com/QudsLab/PQChub/wrappers/go/pqc"` |
+
+- [PQClean Project](https://github.com/PQClean/PQClean)| **Rust** | ✅ | `cargo add pqchub` | `use pqchub::Kyber512;` |
+
 | **Java** | ✅ | Maven/Gradle | `import com.qudslab.pqchub.Kyber512;` |
-| **C#** | ✅ | NuGet | `using PQChub;` |
 
-## 📖 Documentation
+## ⚠️ Security Notice| **C#** | ✅ | NuGet | `using PQChub;` |
 
-- [**API Reference**](docs/API.md) - Complete API documentation for all languages
-- [**Building Guide**](docs/BUILDING.md) - How to build binaries locally
-- [**Algorithm Details**](docs/ALGORITHMS.md) - Detailed information about supported algorithms
+
+
+This is a research and educational project. For production use:## 📖 Documentation
+
+- Review the code carefully
+
+- Test thoroughly in your environment- [**API Reference**](docs/API.md) - Complete API documentation for all languages
+
+- Consider official NIST-standardized implementations- [**Building Guide**](docs/BUILDING.md) - How to build binaries locally
+
+- Keep binaries updated- [**Algorithm Details**](docs/ALGORITHMS.md) - Detailed information about supported algorithms
+
 - [**Contributing**](docs/CONTRIBUTING.md) - How to contribute to the project
-- [**Troubleshooting**](docs/TROUBLESHOOTING.md) - Common issues and solutions
 
-## 🚀 Getting Started
+---- [**Troubleshooting**](docs/TROUBLESHOOTING.md) - Common issues and solutions
+
+
+
+Made with ❤️ by [QudsLab](https://github.com/QudsLab)## 🚀 Getting Started
+
 
 ### Prerequisites
 
