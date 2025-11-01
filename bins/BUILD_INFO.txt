@@ -3,8 +3,8 @@ PQChub Binary Build Information
 
 Build Date: $(date -u)
 PQClean Reference: master
-GitHub Run ID: 19002089495
-GitHub Run Number: 20
+GitHub Run ID: 19002206272
+GitHub Run Number: 21
 Triggered by: workflow_dispatch
 
 Successfully built platforms:
@@ -16,7 +16,5 @@ linux-aarch64/libpqc.so
 linux-x86_64/libpqc.so
 macos-arm64/libpqc.dylib
 macos-x86_64/libpqc.dylib
-windows-x64/pqc.dll
-windows-x86/pqc.dll
 
-Total binaries: 10
+Total binaries: 8
