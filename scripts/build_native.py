@@ -155,7 +155,7 @@ EXPORT const char* pqchub_get_platform(void) {
     with open(wrapper_file, 'w') as f:
         f.write(wrapper_content)
     
-    source_files.append(str(wrapper_file))
+    source_files.append(str(wrapper_file.absolute()))
     
     # Prepare compiler command
     cl_cmd = ["cl.exe"]
@@ -178,7 +178,7 @@ EXPORT const char* pqchub_get_platform(void) {
     cl_cmd.extend(source_files)
     
     # Output file
-    cl_cmd.extend([f"/Fe:{output_lib}"])
+    cl_cmd.extend([f"/Fe:{output_lib.absolute()}"])
     
     # Link with necessary libraries
     cl_cmd.extend([
