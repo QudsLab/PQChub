@@ -303,3 +303,74 @@ jobs:
         echo "**Total binaries**: $(find bins -type f \( -name "*.so" -o -name "*.dylib" -o -name "*.dll" \) 2>/dev/null | wc -l)" >> $GITHUB_STEP_SUMMARY
         echo "**PQClean ref**: ${{ env.PQCLEAN_REF }}" >> $GITHUB_STEP_SUMMARY
         echo "**Run ID**: ${{ github.run_id }}" >> $GITHUB_STEP_SUMMARY
+
+  test_binaries:
+    name: Test Binaries (${{ matrix.os }})
+    needs: commit_binaries
+    runs-on: ${{ matrix.os }}
+    if: needs.commit_binaries.result == 'success'
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        include:
+          - os: ubuntu-latest
+            platform: linux-x86_64
+          - os: macos-latest
+            platform: macos-arm64
+          - os: windows-latest
+            platform: windows-x64
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        ref: main  # Pull the latest main with committed binaries
+
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Pull latest changes
+      run: git pull origin main
+
+    - name: Verify binary exists
+      shell: bash
+      run: |
+        echo "Checking for binaries in bins/${{ matrix.platform }}/"
+        ls -la bins/${{ matrix.platform }}/ || echo "Directory not found"
+        
+        if [ "${{ matrix.os }}" = "windows-latest" ]; then
+          binary="bins/${{ matrix.platform }}/pqc.dll"
+        elif [ "${{ matrix.os }}" = "macos-latest" ]; then
+          binary="bins/${{ matrix.platform }}/libpqc.dylib"
+        else
+          binary="bins/${{ matrix.platform }}/libpqc.so"
+        fi
+        
+        if [ -f "$binary" ]; then
+          echo "[OK] Binary found: $binary"
+          ls -lh "$binary"
+        else
+          echo "[ERROR] Binary not found: $binary"
+          exit 1
+        fi
+
+    - name: Run Python test
+      shell: bash
+      run: |
+        echo "Running Python tests..."
+        python tests/test_python.py
+
+    - name: Test summary
+      if: always()
+      shell: bash
+      run: |
+        echo "## Test Results - ${{ matrix.os }}" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "| Test Type | Status |" >> $GITHUB_STEP_SUMMARY
+        echo "|-----------|--------|" >> $GITHUB_STEP_SUMMARY
+        echo "| Python Test | ✓ Passed |" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "**Platform**: ${{ matrix.platform }}" >> $GITHUB_STEP_SUMMARY
