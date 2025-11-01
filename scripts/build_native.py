@@ -99,21 +99,21 @@ def build_native_windows(target_platform, pqclean_source):
     # Add common files
     common_dir = pqclean_path / "common"
     if common_dir.exists():
-        include_dirs.append(str(common_dir))
+        include_dirs.append(str(common_dir.absolute()))
         # Add specific common files that are needed
         for common_file in ["fips202.c", "sha2.c", "randombytes.c", "aes.c"]:
             common_path = common_dir / common_file
             if common_path.exists():
-                source_files.append(str(common_path))
+                source_files.append(str(common_path.absolute()))
     
     # Process each algorithm
     for algo in available_algorithms:
         algo_dir = pqclean_path / algo
-        include_dirs.append(str(algo_dir))
+        include_dirs.append(str(algo_dir.absolute()))
         
         # Find all .c files in the algorithm directory
         c_files = list(algo_dir.glob("*.c"))
-        source_files.extend([str(f) for f in c_files])
+        source_files.extend([str(f.absolute()) for f in c_files])
     
     print(f"Found {len(source_files)} source files")
     print(f"Include directories: {len(include_dirs)}")
