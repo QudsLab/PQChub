@@ -222,13 +222,23 @@ EXPORT const char* pqchub_get_platform(void) {
         
         print("[SUCCESS] Build completed successfully")
         
-        # Clean up build directory artifacts
-        for pattern in ["*.obj", "*.exp", "*.lib", "*.pdb"]:
+        # Clean up build directory artifacts (object files, etc.)
+        for pattern in ["*.obj", "*.pdb"]:
             for file in build_dir.glob(pattern):
                 try:
                     file.unlink()
                 except:
                     pass
+        
+        # Clean up Windows linker artifacts from output directory (.exp and .lib files)
+        # Only the .dll is needed for runtime
+        for pattern in ["*.exp", "*.lib"]:
+            for file in output_dir.glob(pattern):
+                try:
+                    print(f"Cleaning up: {file.name}")
+                    file.unlink()
+                except Exception as e:
+                    print(f"Warning: Could not remove {file}: {e}")
         
         return True
     else:
