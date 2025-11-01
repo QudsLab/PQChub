@@ -1,0 +1,69 @@
+{
+  "version": "1.0.0",
+  "generated": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
+  "pqclean_ref": "master",
+  "github_run": "19003380021",
+  "base_url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins",
+  "binaries": {
+    "android-arm64-v8a": {
+      "filename": "libpqc.so",
+      "size": 347440,
+      "url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins/android-arm64-v8a/libpqc.so"
+    }
+,
+    "android-armeabi-v7a": {
+      "filename": "libpqc.so",
+      "size": 422168,
+      "url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins/android-armeabi-v7a/libpqc.so"
+    }
+,
+    "android-x86": {
+      "filename": "libpqc.so",
+      "size": 445240,
+      "url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins/android-x86/libpqc.so"
+    }
+,
+    "android-x86_64": {
+      "filename": "libpqc.so",
+      "size": 411640,
+      "url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins/android-x86_64/libpqc.so"
+    }
+,
+    "linux-aarch64": {
+      "filename": "libpqc.so",
+      "size": 350040,
+      "url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins/linux-aarch64/libpqc.so"
+    }
+,
+    "linux-x86_64": {
+      "filename": "libpqc.so",
+      "size": 421152,
+      "url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins/linux-x86_64/libpqc.so"
+    }
+,
+    "macos-arm64": {
+      "filename": "libpqc.dylib",
+      "size": 380768,
+      "url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins/macos-arm64/libpqc.dylib"
+    }
+,
+    "macos-x86_64": {
+      "filename": "libpqc.dylib",
+      "size": 402192,
+      "url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins/macos-x86_64/libpqc.dylib"
+    }
+,
+    "windows-x64": {
+      "filename": "pqc.dll",
+      "size": 186880,
+      "url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins/windows-x64/pqc.dll"
+    }
+,
+    "windows-x86": {
+      "filename": "pqc.dll",
+      "size": 171520,
+      "url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins/windows-x86/pqc.dll"
+    }
+
+  }
+}
