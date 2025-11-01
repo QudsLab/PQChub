@@ -189,7 +189,11 @@ jobs:
 
     - name: Organize binaries
       run: |
-        # Create bins directory structure
+        # List downloaded artifacts for debugging
+        echo "Downloaded artifacts:"
+        ls -la downloaded-artifacts/
+        
+        # Create bins directory structure (preserve existing files like README.md)
         mkdir -p bins
         
         # Move all downloaded artifacts to bins/
@@ -197,10 +201,16 @@ jobs:
           if [ -d "$artifact_dir" ]; then
             target_name=$(basename "$artifact_dir" | sed 's/^binaries-//')
             echo "Processing $target_name"
+            echo "  Contents of artifact:"
+            ls -la "$artifact_dir/"
             mkdir -p "bins/$target_name"
-            cp -r "$artifact_dir"/* "bins/$target_name/" || true
+            cp -rv "$artifact_dir"/* "bins/$target_name/" || true
           fi
         done
+        
+        # List final bins structure
+        echo "Final bins structure:"
+        find bins -type f -ls
         
         # Create build info file
         cat > bins/BUILD_INFO.txt << 'EOF'
