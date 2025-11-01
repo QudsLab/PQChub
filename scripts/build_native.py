@@ -157,38 +157,62 @@ EXPORT const char* pqchub_get_platform(void) {
     
     source_files.append(str(wrapper_file.absolute()))
     
-    # Prepare compiler command
-    cl_cmd = ["cl.exe"]
+    # Step 1: Compile each source file to object file with unique names
+    print("Compiling source files to object files...")
+    obj_files = []
+    obj_counter = 0
     
-    # Compiler flags
-    cl_cmd.extend([
-        "/O2",           # Optimize for speed
-        "/GL",           # Whole program optimization
-        "/LD",           # Create DLL
-        "/MD",           # Use MSVCRT.lib
-        "/nologo",       # Suppress startup banner
-        "/W1",           # Warning level 1
-    ])
+    for src_file in source_files:
+        # Create unique object file name
+        obj_file = build_dir / f"obj_{obj_counter}.obj"
+        obj_files.append(str(obj_file.absolute()))
+        obj_counter += 1
+        
+        # Compile this source file
+        compile_cmd = [
+            "cl.exe",
+            "/c",            # Compile only (don't link)
+            "/O2",           # Optimize for speed
+            "/GL",           # Whole program optimization
+            "/MD",           # Use MSVCRT.lib
+            "/nologo",       # Suppress startup banner
+            "/W1",           # Warning level 1
+        ]
+        
+        # Add include directories
+        for include_dir in include_dirs:
+            compile_cmd.append(f"/I{include_dir}")
+        
+        # Add source file and output object file
+        compile_cmd.append(src_file)
+        compile_cmd.append(f"/Fo{obj_file.absolute()}")
+        
+        # Compile without changing directory
+        success = run_command(compile_cmd)
+        if not success:
+            print(f"[ERROR] Failed to compile: {src_file}")
+            return False
     
-    # Add include directories
-    for include_dir in include_dirs:
-        cl_cmd.append(f"/I{include_dir}")
+    print(f"Successfully compiled {len(obj_files)} object files")
     
-    # Add source files
-    cl_cmd.extend(source_files)
+    # Step 2: Link all object files into DLL
+    print("Linking DLL...")
+    link_cmd = [
+        "link.exe",
+        "/DLL",                      # Create DLL
+        "/LTCG",                     # Link-time code generation
+        "/nologo",                   # Suppress startup banner
+        f"/OUT:{output_lib.absolute()}",  # Output file
+    ]
     
-    # Output file
-    cl_cmd.extend([f"/Fe:{output_lib.absolute()}"])
+    # Add all object files
+    link_cmd.extend(obj_files)
     
-    # Link with necessary libraries
-    cl_cmd.extend([
-        "/link",
-        "advapi32.lib",   # For Windows crypto APIs
-    ])
+    # Add necessary libraries
+    link_cmd.append("advapi32.lib")
     
-    # Build the DLL
-    print("Compiling DLL...")
-    success = run_command(cl_cmd, cwd=build_dir)
+    # Link without changing directory
+    success = run_command(link_cmd)
     
     if success and output_lib.exists():
         print(f"[SUCCESS] Successfully built: {output_lib}")
