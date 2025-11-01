@@ -1,121 +1,164 @@
-name: Build Binaries
+name: Build Binariesname: Build Binaries
 
-on:
-  # Manual trigger only
-  workflow_dispatch:
-    inputs:
-      pqclean_ref:
-        description: 'PQClean branch/tag/commit to build'
-        required: false
-        default: 'master'
+
+
+on:on:
+
+  workflow_dispatch:  # Manual trigger only
+
+    inputs:  workflow_dispatch:
+
+      pqclean_ref:    inputs:
+
+        description: 'PQClean branch/tag/commit to build'      pqclean_ref:
+
+        required: false        description: 'PQClean branch/tag/commit to build'
+
+        default: 'master'        required: false
+
+        type: string        default: 'master'
+
         type: string
 
 env:
+
+  PQCLEAN_REF: ${{ github.event.inputs.pqclean_ref || 'master' }}env:
+
   PQCLEAN_REF: ${{ github.event.inputs.pqclean_ref || 'master' }}
 
 jobs:
-  build_native:
-    name: Build Native (${{ matrix.os }}-${{ matrix.arch }})
-    runs-on: ${{ matrix.runner }}
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          # Linux builds
-          - os: linux
-            arch: x86_64
-            runner: ubuntu-latest
-            target: linux-x86_64
-            cross: false
-          - os: linux
-            arch: aarch64
-            runner: ubuntu-latest
-            target: linux-aarch64
-            cross: true
+
+  build_native:jobs:
+
+    name: Build (${{ matrix.target }})  build_native:
+
+    runs-on: ${{ matrix.runner }}    name: Build Native (${{ matrix.os }}-${{ matrix.arch }})
+
+    strategy:    runs-on: ${{ matrix.runner }}
+
+      fail-fast: false    strategy:
+
+      matrix:      fail-fast: false
+
+        include:      matrix:
+
+          - os: linux        include:
+
+            arch: x86_64          # Linux builds
+
+            runner: ubuntu-latest          - os: linux
+
+            target: linux-x86_64            arch: x86_64
+
+          - os: macos            runner: ubuntu-latest
+
+            arch: arm64            target: linux-x86_64
+
+            runner: macos-latest            cross: false
+
+            target: macos-arm64          - os: linux
+
+          - os: windows            arch: aarch64
+
+            arch: x64            runner: ubuntu-latest
+
+            runner: windows-latest            target: linux-aarch64
+
+            target: windows-x64            cross: true
+
           
-          # macOS builds
+
+    steps:          # macOS builds
+
+    - uses: actions/checkout@v4          - os: macos
+
+                arch: x86_64
+
+    - uses: actions/setup-python@v4            runner: macos-15-intel  # Intel runner
+
+      with:            target: macos-x86_64
+
+        python-version: '3.11'            cross: false
+
           - os: macos
-            arch: x86_64
-            runner: macos-15-intel  # Intel runner
-            target: macos-x86_64
+
+    - name: Setup Linux            arch: arm64
+
+      if: matrix.os == 'linux'            runner: macos-latest  # Apple Silicon runner
+
+      run: sudo apt-get update && sudo apt-get install -y build-essential            target: macos-arm64
+
             cross: false
-          - os: macos
-            arch: arm64
-            runner: macos-latest  # Apple Silicon runner
-            target: macos-arm64
-            cross: false
-          
-          # Windows builds
-          - os: windows
-            arch: x64
-            runner: windows-latest
+
+    - name: Setup Windows          
+
+      if: matrix.os == 'windows'          # Windows builds
+
+      uses: ilammy/msvc-dev-cmd@v1          - os: windows
+
+      with:            arch: x64
+
+        arch: ${{ matrix.arch }}            runner: windows-latest
+
             target: windows-x64
-            cross: false
-          - os: windows
+
+    - name: Clone PQClean            cross: false
+
+      run: git clone --depth 1 --branch ${{ env.PQCLEAN_REF }} https://github.com/PQClean/PQClean.git pqclean-source          - os: windows
+
             arch: x86
-            runner: windows-latest
-            target: windows-x86
-            cross: true
 
-    steps:
+    - name: Build (Unix)            runner: windows-latest
+
+      if: matrix.os != 'windows'            target: windows-x86
+
+      run: |            cross: true
+
+        chmod +x scripts/build_native.sh
+
+        ./scripts/build_native.sh ${{ matrix.target }} pqclean-source    steps:
+
     - name: Checkout repository
-      uses: actions/checkout@v4
-      with:
-        lfs: true
 
-    - name: Setup Python
+    - name: Build (Windows)      uses: actions/checkout@v4
+
+      if: matrix.os == 'windows'
+
+      run: python scripts/build_native.py ${{ matrix.target }} pqclean-source    - name: Setup Python
+
       uses: actions/setup-python@v4
-      with:
-        python-version: '3.11'
 
-    # Linux-specific setup
-    - name: Setup Linux dependencies
+    - name: Upload      with:
+
+      uses: actions/upload-artifact@v4        python-version: '3.11'
+
+      with:
+
+        name: ${{ matrix.target }}    # Linux-specific setup
+
+        path: bins/${{ matrix.target }}/    - name: Setup Linux build tools
+
       if: matrix.os == 'linux'
       run: |
         sudo apt-get update
-        sudo apt-get install -y build-essential cmake ninja-build ccache
+        sudo apt-get install -y build-essential
         if [ "${{ matrix.cross }}" = "true" ]; then
           sudo apt-get install -y gcc-aarch64-linux-gnu g++-aarch64-linux-gnu
         fi
 
-    # macOS-specific setup
-    - name: Setup macOS dependencies
-      if: matrix.os == 'macos'
-      run: |
-        brew install cmake ninja ccache
-
     # Windows-specific setup
-    - name: Setup Windows dependencies
+    - name: Setup Windows MSVC
       if: matrix.os == 'windows'
       uses: ilammy/msvc-dev-cmd@v1
       with:
         arch: ${{ matrix.arch }}
 
-    # Cache setup
-    - name: Setup ccache
-      if: matrix.os != 'windows'
-      uses: hendrikmuhs/ccache-action@v1.2
-      with:
-        key: ${{ matrix.target }}
-        max-size: 500M
-
-    # Clone PQClean directly (simpler and more reliable than download script)
+    # Clone PQClean source
     - name: Clone PQClean
-      run: |
-        git clone --depth 1 --branch ${{ env.PQCLEAN_REF }} https://github.com/PQClean/PQClean.git pqclean-source
-    
-    - name: Verify PQClean directory
-      shell: bash
-      run: |
-        echo "Checking pqclean-source directory structure:"
-        ls -la pqclean-source/ | head -20
-        echo "Checking for common directory:"
-        ls -la pqclean-source/common/ | head -10
-        echo "Checking for falcon-512 files:"
-        ls -la pqclean-source/crypto_sign/falcon-512/clean/*.c | head -10
+      run: git clone --depth 1 --branch ${{ env.PQCLEAN_REF }} https://github.com/PQClean/PQClean.git pqclean-source
 
     # Build native library
-    - name: Build native library (Unix)
+    - name: Build (Unix)
       if: matrix.os != 'windows'
       run: |
         chmod +x scripts/build_native.sh
@@ -124,40 +167,11 @@ jobs:
         CC: ${{ matrix.cross && matrix.arch == 'aarch64' && 'aarch64-linux-gnu-gcc' || 'gcc' }}
         CXX: ${{ matrix.cross && matrix.arch == 'aarch64' && 'aarch64-linux-gnu-g++' || 'g++' }}
 
-    - name: Build native library (Windows)
+    - name: Build (Windows)
       if: matrix.os == 'windows'
-      run: |
-        python scripts/build_native.py ${{ matrix.target }} pqclean-source
+      run: python scripts/build_native.py ${{ matrix.target }} pqclean-source
 
-    # Create build info
-    - name: Create build info
-      shell: bash
-      run: |
-        mkdir -p bins/${{ matrix.target }}
-        cat > bins/${{ matrix.target }}/README.txt << EOF
-        PQChub Native Library - ${{ matrix.target }}
-        =============================================
-        
-        Build Date: $(date -u)
-        PQClean Ref: ${{ env.PQCLEAN_REF }}
-        GitHub Run: ${{ github.run_id }}
-        
-        Platform: ${{ matrix.os }}
-        Architecture: ${{ matrix.arch }}
-        Cross-compiled: ${{ matrix.cross }}
-        
-        Supported Algorithms:
-        - Kyber512, Kyber768, Kyber1024 (KEM)
-        - Dilithium2, Dilithium3, Dilithium5 (Signatures)
-        - Falcon-512, Falcon-1024 (Signatures)
-        
-        Usage:
-        Load this library using your language's FFI interface.
-        See the wrappers/ directory for examples.
-        EOF
-
-    # Upload artifacts
-    - name: Upload binary artifacts
+    - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:
         name: binaries-${{ matrix.target }}
@@ -179,8 +193,6 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
-      with:
-        lfs: true
 
     - name: Setup Python
       uses: actions/setup-python@v4
@@ -192,12 +204,9 @@ jobs:
       uses: nttld/setup-ndk@v1
       with:
         ndk-version: r25c
-        add-to-path: false
 
-    # Clone PQClean
     - name: Clone PQClean
-      run: |
-        git clone --depth 1 --branch ${{ env.PQCLEAN_REF }} https://github.com/PQClean/PQClean.git pqclean-source
+      run: git clone --depth 1 --branch ${{ env.PQCLEAN_REF }} https://github.com/PQClean/PQClean.git pqclean-source
 
     - name: Build Android library
       run: |
@@ -206,51 +215,12 @@ jobs:
       env:
         ANDROID_NDK_ROOT: ${{ steps.setup-ndk.outputs.ndk-path }}
 
-    - name: Create build info
-      run: |
-        mkdir -p bins/android-${{ matrix.abi }}
-        cat > bins/android-${{ matrix.abi }}/README.txt << EOF
-        PQChub Android Library - ${{ matrix.abi }}
-        ==========================================
-        
-        Build Date: $(date -u)
-        PQClean Ref: ${{ env.PQCLEAN_REF }}
-        GitHub Run: ${{ github.run_id }}
-        
-        Platform: Android
-        ABI: ${{ matrix.abi }}
-        NDK Version: r25c
-        
-        Supported Algorithms:
-        - Kyber512, Kyber768, Kyber1024 (KEM)
-        - Dilithium2, Dilithium3, Dilithium5 (Signatures)
-        - Falcon-512, Falcon-1024 (Signatures)
-        
-        Usage:
-        Load this library in your Android app using JNI or FFI.
-        EOF
-
-    - name: Upload Android artifacts
+    - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:
         name: binaries-android-${{ matrix.abi }}
         path: bins/android-${{ matrix.abi }}/
         retention-days: 7
-
-  commit_binaries:
-    name: Commit Binaries to Repository
-    needs: [build_native, build_android]
-    runs-on: ubuntu-latest
-    if: always() && (needs.build_native.result == 'success' || needs.build_android.result == 'success')
-
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-      with:
-        lfs: true
-        token: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Download all binary artifacts
       uses: actions/download-artifact@v4
       with:
         path: downloaded-artifacts
