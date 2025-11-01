@@ -13,6 +13,10 @@ on:
 env:
   PQCLEAN_REF: ${{ github.event.inputs.pqclean_ref || 'master' }}
 
+permissions:
+  contents: write
+  actions: read
+
 jobs:
   build_native:
     name: Build Native (${{ matrix.os }}-${{ matrix.arch }})
