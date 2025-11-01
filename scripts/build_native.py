@@ -1,0 +1,227 @@
+#!/usr/bin/env python3
+"""
+PQClean Native Library Build Script (Windows)
+Builds a unified native library containing all supported PQC algorithms
+"""
+
+import os
+import sys
+import subprocess
+import shutil
+from pathlib import Path
+import glob
+
+def run_command(cmd, cwd=None):
+    """Run a command and return success status"""
+    try:
+        print(f"Running: {' '.join(cmd)}")
+        result = subprocess.run(cmd, cwd=cwd, check=True, capture_output=True, text=True)
+        print(result.stdout)
+        return True
+    except subprocess.CalledProcessError as e:
+        print(f"Error: {e}")
+        print(f"STDOUT: {e.stdout}")
+        print(f"STDERR: {e.stderr}")
+        return False
+
+def build_native_windows(target_platform, pqclean_source):
+    """Build native library for Windows"""
+    
+    if not Path(pqclean_source).exists():
+        print(f"Error: PQClean source directory not found: {pqclean_source}")
+        print("Run download_pqclean.py first")
+        return False
+    
+    print(f"Building native library for {target_platform}")
+    print(f"PQClean source: {pqclean_source}")
+    
+    # Create build directory
+    build_dir = Path(f"build_{target_platform}")
+    build_dir.mkdir(exist_ok=True)
+    
+    # Output directory
+    output_dir = Path("bins") / target_platform
+    output_dir.mkdir(parents=True, exist_ok=True)
+    
+    # Compiler settings based on platform
+    if target_platform == "windows-x64":
+        arch = "x64"
+        output_lib = output_dir / "pqc.dll"
+    elif target_platform == "windows-x86":
+        arch = "x86"
+        output_lib = output_dir / "pqc.dll"
+    else:
+        print(f"Error: Unsupported target platform: {target_platform}")
+        return False
+    
+    print(f"Architecture: {arch}")
+    print(f"Output: {output_lib}")
+    
+    # Supported algorithms
+    algorithms = [
+        # Kyber KEM variants
+        "crypto_kem/kyber512/clean",
+        "crypto_kem/kyber768/clean", 
+        "crypto_kem/kyber1024/clean",
+        
+        # Dilithium signature variants
+        "crypto_sign/dilithium2/clean",
+        "crypto_sign/dilithium3/clean",
+        "crypto_sign/dilithium5/clean",
+        
+        # Falcon signature variants
+        "crypto_sign/falcon-512/clean",
+        "crypto_sign/falcon-1024/clean",
+    ]
+    
+    # Check which algorithms are available
+    available_algorithms = []
+    pqclean_path = Path(pqclean_source)
+    
+    for algo in algorithms:
+        algo_path = pqclean_path / algo
+        if algo_path.exists():
+            available_algorithms.append(algo)
+            print(f"✓ Found: {algo}")
+        else:
+            print(f"⚠ Missing: {algo}")
+    
+    if not available_algorithms:
+        print(f"Error: No supported algorithms found in {pqclean_source}")
+        return False
+    
+    print(f"Building {len(available_algorithms)} algorithms...")
+    
+    # Collect all source files
+    source_files = []
+    include_dirs = []
+    
+    # Add common files
+    common_dir = pqclean_path / "common"
+    if common_dir.exists():
+        include_dirs.append(str(common_dir))
+        # Add specific common files that are needed
+        for common_file in ["fips202.c", "sha2.c", "randombytes.c", "aes.c"]:
+            common_path = common_dir / common_file
+            if common_path.exists():
+                source_files.append(str(common_path))
+    
+    # Process each algorithm
+    for algo in available_algorithms:
+        algo_dir = pqclean_path / algo
+        include_dirs.append(str(algo_dir))
+        
+        # Find all .c files in the algorithm directory
+        c_files = list(algo_dir.glob("*.c"))
+        source_files.extend([str(f) for f in c_files])
+    
+    print(f"Found {len(source_files)} source files")
+    print(f"Include directories: {len(include_dirs)}")
+    
+    # Create wrapper C file
+    wrapper_file = build_dir / "pqc_wrapper.c"
+    wrapper_content = '''/*
+ * PQChub Unified Library Wrapper (Windows)
+ * This file exports all supported PQC algorithm functions
+ */
+
+#include <stddef.h>
+
+// Export macro for Windows DLL
+#ifdef _WIN32
+#define EXPORT __declspec(dllexport)
+#else
+#define EXPORT
+#endif
+
+// Forward declarations for available algorithms
+// These will be linked from the compiled algorithm object files
+
+// Library info functions
+EXPORT const char* pqchub_get_version(void) {
+    return "PQChub 1.0.0";
+}
+
+EXPORT const char* pqchub_get_algorithms(void) {
+    return "Kyber512,Kyber768,Kyber1024,Dilithium2,Dilithium3,Dilithium5,Falcon-512,Falcon-1024";
+}
+
+// Platform info
+EXPORT const char* pqchub_get_platform(void) {
+    return "''' + target_platform + '''";
+}
+'''
+    
+    with open(wrapper_file, 'w') as f:
+        f.write(wrapper_content)
+    
+    source_files.append(str(wrapper_file))
+    
+    # Prepare compiler command
+    cl_cmd = ["cl.exe"]
+    
+    # Compiler flags
+    cl_cmd.extend([
+        "/O2",           # Optimize for speed
+        "/GL",           # Whole program optimization
+        "/LD",           # Create DLL
+        "/MD",           # Use MSVCRT.lib
+        "/nologo",       # Suppress startup banner
+        "/W1",           # Warning level 1
+    ])
+    
+    # Add include directories
+    for include_dir in include_dirs:
+        cl_cmd.append(f"/I{include_dir}")
+    
+    # Add source files
+    cl_cmd.extend(source_files)
+    
+    # Output file
+    cl_cmd.extend([f"/Fe:{output_lib}"])
+    
+    # Link with necessary libraries
+    cl_cmd.extend([
+        "/link",
+        "advapi32.lib",   # For Windows crypto APIs
+    ])
+    
+    # Build the DLL
+    print("Compiling DLL...")
+    success = run_command(cl_cmd, cwd=build_dir)
+    
+    if success and output_lib.exists():
+        print(f"✅ Successfully built: {output_lib}")
+        
+        # Show library info
+        print(f"File size: {output_lib.stat().st_size} bytes")
+        
+        print("✅ Build completed successfully")
+        
+        # Clean up build directory artifacts
+        for pattern in ["*.obj", "*.exp", "*.lib", "*.pdb"]:
+            for file in build_dir.glob(pattern):
+                try:
+                    file.unlink()
+                except:
+                    pass
+        
+        return True
+    else:
+        print("❌ Build failed: Output library not found")
+        return False
+
+def main():
+    if len(sys.argv) != 3:
+        print("Usage: python build_native.py <target_platform> <pqclean_source>")
+        print("Example: python build_native.py windows-x64 pqclean")
+        sys.exit(1)
+    
+    target_platform = sys.argv[1]
+    pqclean_source = sys.argv[2]
+    
+    success = build_native_windows(target_platform, pqclean_source)
+    sys.exit(0 if success else 1)
+
+if __name__ == "__main__":
+    main()

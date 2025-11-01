@@ -1,0 +1,50 @@
+{
+  "name": "pqchub",
+  "version": "1.0.0",
+  "description": "Node.js wrapper for PQChub - Universal Post-Quantum Cryptography binaries",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "test": "node test/test.js",
+    "lint": "eslint *.js lib/*.js",
+    "format": "prettier --write *.js lib/*.js"
+  },
+  "keywords": [
+    "cryptography",
+    "post-quantum",
+    "quantum-resistant",
+    "kyber",
+    "dilithium",
+    "falcon",
+    "pqc",
+    "nist"
+  ],
+  "author": "QudsLab <contact@qudslab.org>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/QudsLab/PQChub.git",
+    "directory": "wrappers/nodejs"
+  },
+  "homepage": "https://github.com/QudsLab/PQChub",
+  "bugs": {
+    "url": "https://github.com/QudsLab/PQChub/issues"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "dependencies": {
+    "ffi-napi": "^4.0.3",
+    "ref-napi": "^3.0.3"
+  },
+  "devDependencies": {
+    "eslint": "^8.0.0",
+    "prettier": "^2.8.0"
+  },
+  "files": [
+    "index.js",
+    "index.d.ts",
+    "lib/",
+    "README.md"
+  ]
+}

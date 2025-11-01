@@ -1,0 +1,42 @@
+# .gitignore for PQChub
+
+# Ignore Python cache and virtual environments
+__pycache__/
+*.pyc
+*.pyo
+venv/
+
+# Ignore Node.js dependencies
+node_modules/
+
+# Ignore Go build artifacts
+wrappers/go/bin/
+
+# Ignore Rust build artifacts
+target/
+
+# Ignore build output
+dist/
+build/
+
+# Ignore binaries (except those tracked by LFS)
+bins/*/*.so
+bins/*/*.dylib
+bins/*/*.dll
+
+# Ignore logs and temp files
+*.log
+*.tmp
+*.swp
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Ignore test output
+coverage/
+*.coverage
+
+# Ignore editor files
+.vscode/
+.idea/

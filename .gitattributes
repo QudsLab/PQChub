@@ -1,0 +1,28 @@
+# .gitattributes for PQChub
+
+# Track binaries with Git LFS
+bins/*/libpqc.so filter=lfs diff=lfs merge=lfs -text
+bins/*/libpqc.dylib filter=lfs diff=lfs merge=lfs -text
+bins/*/pqc.dll filter=lfs diff=lfs merge=lfs -text
+bins/*/metadata.json filter=lfs diff=lfs merge=lfs -text
+
+# Track large example files
+examples/**/*.bin filter=lfs diff=lfs merge=lfs -text
+
+# Track test vectors
+tests/**/*.bin filter=lfs diff=lfs merge=lfs -text
+
+# Track PQClean source archives
+pqclean/**/*.tar.gz filter=lfs diff=lfs merge=lfs -text
+pqclean/**/*.zip filter=lfs diff=lfs merge=lfs -text
+
+# Text files
+*.md text
+*.py text
+*.js text
+*.go text
+*.rs text
+*.json text
+*.yml text
+*.sh text
+*.bat text
