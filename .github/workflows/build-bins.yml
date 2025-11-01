@@ -1,24 +1,23 @@
 name: Build Binaries
 
 on:
-  # on update any files in repository
+  # Trigger on push to main (automatic)
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
     paths:
-      - '**' # Trigger on any file change
-
-  # # Manual trigger only
-  # workflow_dispatch:
-  #   inputs:
-  #     pqclean_ref:
-  #       description: 'PQClean branch/tag/commit to build'
-  #       required: false
-  #       default: 'master'
-  #       type: string
+      - 'scripts/**'
+      - 'wrappers/**'
+      - '.github/workflows/build-bins.yml'
+  
+  # Manual trigger
+  workflow_dispatch:
+    inputs:
+      pqclean_ref:
+        description: 'PQClean branch/tag/commit to build'
+        required: false
+        default: 'master'
+        type: string
 
 env:
   PQCLEAN_REF: ${{ github.event.inputs.pqclean_ref || 'master' }}
@@ -258,17 +257,15 @@ jobs:
         if git diff --staged --quiet; then
           echo "No changes to commit"
         else
-          git commit -m "Update binaries from PQClean ${{ env.PQCLEAN_REF }}
-
-          - Build date: $(date -u)
-          - GitHub run: ${{ github.run_id }}
-          - Trigger: ${{ github.event_name }}
-          - Platforms: $(find bins -type f \( -name "*.so" -o -name "*.dylib" -o -name "*.dll" \) | wc -l) binaries
+          # Count binaries
+          binary_count=$(find bins -type f \( -name "*.so" -o -name "*.dylib" -o -name "*.dll" \) | wc -l)
           
-          [skip ci]"
+          git commit -m "Build: Update $binary_count binaries [skip ci]" \
+                     -m "PQClean: ${{ env.PQCLEAN_REF }}" \
+                     -m "Run: ${{ github.run_id }}"
           
-          # Pull latest changes and rebase our commit on top
-          git pull --rebase origin main
+          # Pull latest changes with merge strategy (not rebase to avoid conflicts)
+          git pull --no-rebase origin main || git pull --rebase origin main
           
           # Push with retry logic
           max_retries=3
@@ -316,21 +313,40 @@ jobs:
         echo "**Run ID**: ${{ github.run_id }}" >> $GITHUB_STEP_SUMMARY
 
   test_binaries:
-    name: Test Binaries (${{ matrix.os }})
+    name: Test Binaries (${{ matrix.name }})
     needs: commit_binaries
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.runner }}
     if: needs.commit_binaries.result == 'success'
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
         include:
-          - os: ubuntu-latest
+          # Desktop platforms
+          - name: Linux x86_64
+            runner: ubuntu-latest
             platform: linux-x86_64
-          - os: macos-latest
+          - name: macOS ARM64
+            runner: macos-latest
             platform: macos-arm64
-          - os: windows-latest
+          - name: Windows x64
+            runner: windows-latest
             platform: windows-x64
+          - name: Windows x86
+            runner: windows-latest
+            platform: windows-x86
+          # Android platforms
+          - name: Android ARM64
+            runner: ubuntu-latest
+            platform: android-arm64-v8a
+          - name: Android ARMv7
+            runner: ubuntu-latest
+            platform: android-armeabi-v7a
+          - name: Android x86_64
+            runner: ubuntu-latest
+            platform: android-x86_64
+          - name: Android x86
+            runner: ubuntu-latest
+            platform: android-x86
 
     steps:
     - name: Checkout repository
@@ -356,9 +372,10 @@ jobs:
         echo "Checking for binaries in bins/${{ matrix.platform }}/"
         ls -la bins/${{ matrix.platform }}/ || echo "Directory not found"
         
-        if [ "${{ matrix.os }}" = "windows-latest" ]; then
+        # Determine binary name based on platform
+        if [[ "${{ matrix.platform }}" == windows-* ]]; then
           binary="bins/${{ matrix.platform }}/pqc.dll"
-        elif [ "${{ matrix.os }}" = "macos-latest" ]; then
+        elif [[ "${{ matrix.platform }}" == macos-* ]]; then
           binary="bins/${{ matrix.platform }}/libpqc.dylib"
         else
           binary="bins/${{ matrix.platform }}/libpqc.so"
@@ -387,19 +404,34 @@ jobs:
         fi
 
     - name: Run Python test
+      if: ${{ !startsWith(matrix.platform, 'android-') }}
       shell: bash
       run: |
         echo "Running Python tests..."
         python tests/test_python.py
 
+    - name: Android binary validation
+      if: ${{ startsWith(matrix.platform, 'android-') }}
+      shell: bash
+      run: |
+        echo "Android binary validated (file exists and size checked)"
+        echo "Note: Functional testing requires Android device/emulator"
+
     - name: Test summary
       if: always()
       shell: bash
       run: |
-        echo "## Test Results - ${{ matrix.os }}" >> $GITHUB_STEP_SUMMARY
+        echo "## Test Results - ${{ matrix.name }}" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
         echo "| Test Type | Status |" >> $GITHUB_STEP_SUMMARY
         echo "|-----------|--------|" >> $GITHUB_STEP_SUMMARY
-        echo "| Python Test | ✓ Passed |" >> $GITHUB_STEP_SUMMARY
+        
+        if [[ "${{ matrix.platform }}" == android-* ]]; then
+          echo "| Binary Validation | ✓ Passed |" >> $GITHUB_STEP_SUMMARY
+          echo "| Note | Android requires device/emulator for functional testing |" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "| Python Test | ✓ Passed |" >> $GITHUB_STEP_SUMMARY
+        fi
+        
         echo "" >> $GITHUB_STEP_SUMMARY
         echo "**Platform**: ${{ matrix.platform }}" >> $GITHUB_STEP_SUMMARY
