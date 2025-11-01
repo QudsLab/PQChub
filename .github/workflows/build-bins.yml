@@ -110,7 +110,15 @@ jobs:
     - name: Download PQClean
       if: steps.cache-pqclean.outputs.cache-hit != 'true'
       run: |
-        python scripts/download_pqclean.py --output pqclean-source --ref ${{ env.PQCLEAN_REF }}
+        python scripts/download_pqclean.py --output pqclean-source --ref ${{ env.PQCLEAN_REF }} --force
+    
+    - name: Verify PQClean directory
+      shell: bash
+      run: |
+        echo "Checking pqclean-source directory structure:"
+        ls -la pqclean-source/ || dir pqclean-source\
+        echo "Checking for common directory:"
+        ls -la pqclean-source/common/ || dir pqclean-source\common\
 
     # Build native library
     - name: Build native library (Unix)
@@ -202,7 +210,7 @@ jobs:
     - name: Download PQClean
       if: steps.cache-pqclean.outputs.cache-hit != 'true'
       run: |
-        python scripts/download_pqclean.py --output pqclean-source --ref ${{ env.PQCLEAN_REF }}
+        python scripts/download_pqclean.py --output pqclean-source --ref ${{ env.PQCLEAN_REF }} --force
 
     - name: Build Android library
       run: |
