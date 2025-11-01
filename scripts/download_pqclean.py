@@ -43,17 +43,20 @@ def extract_archive(archive_path, extract_to):
         print(f"Error extracting {archive_path}: {e}")
         return False
 
-def download_pqclean(ref="master", output_dir="pqclean"):
+def download_pqclean(ref="master", output_dir="pqclean", force=False):
     """Download PQClean source code"""
     
     # Create output directory
     output_path = Path(output_dir)
     if output_path.exists():
-        print(f"Output directory {output_path} already exists")
-        response = input("Do you want to remove it and continue? (y/N): ")
-        if response.lower() != 'y':
-            print("Aborted")
-            return False
+        if not force:
+            print(f"Output directory {output_path} already exists")
+            response = input("Do you want to remove it and continue? (y/N): ")
+            if response.lower() != 'y':
+                print("Aborted")
+                return False
+        else:
+            print(f"Removing existing directory {output_path}")
         shutil.rmtree(output_path)
     
     output_path.mkdir(parents=True, exist_ok=True)
@@ -117,10 +120,12 @@ def main():
                        help="Git reference to download (branch, tag, or commit)")
     parser.add_argument("--output", default="pqclean",
                        help="Output directory for PQClean source")
+    parser.add_argument("--force", action="store_true",
+                       help="Force overwrite existing directory without prompting")
     
     args = parser.parse_args()
     
-    success = download_pqclean(args.ref, args.output)
+    success = download_pqclean(args.ref, args.output, force=args.force)
     sys.exit(0 if success else 1)
 
 if __name__ == "__main__":
