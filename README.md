@@ -1,11 +1,14 @@
 # PQChub - Universal Post-Quantum Cryptography Binary Distribution
 
-[![Build Status](https://github.com/QudsLab/PQChub/workflows/Build%20Binaries/badge.svg)](https://github.com/QudsLab/PQChub/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Platforms](https://img.shields.io/badge/platforms-Linux%20%7C%20macOS%20%7C%20Windows%20%7C%20Android-blue)](https://github.com/QudsLab/PQChub)
-[![Languages](https://img.shields.io/badge/languages-Python%20%7C%20Node.js%20%7C%20Go%20%7C%20Rust%20%7C%20Java%20%7C%20C%23-green)](https://github.com/QudsLab/PQChub)
+[![Python Support](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://www.python.org/)
+[![PQClean](https://img.shields.io/badge/source-PQClean-green.svg)](https://github.com/PQClean/PQClean)
 
-**PQChub** is a universal binary distribution system for post-quantum cryptography algorithms. It provides pre-compiled native libraries for all major platforms, enabling developers to use post-quantum cryptography from any programming language without compilation hassles.
+> **⚠️ Current Status: Python Wrapper Only**  
+> This repository currently provides a complete Python wrapper for post-quantum cryptography algorithms.  
+> Pre-compiled binaries and other language wrappers are under development.
+
+**PQChub** is a universal binary distribution system for post-quantum cryptography (PQC) algorithms. It provides pre-compiled native libraries and easy-to-use language wrappers for Python, with planned support for Node.js, Go, Rust, Java, and C#.
 
 ## 🚀 Quick Start
 
