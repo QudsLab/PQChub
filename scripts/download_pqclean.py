@@ -95,7 +95,7 @@ def download_pqclean(ref="master", output_dir="pqclean"):
     shutil.rmtree(temp_extract)
     archive_file.unlink()
     
-    print(f"✅ PQClean {ref} downloaded successfully to {output_path}")
+    print(f"[SUCCESS] PQClean {ref} downloaded successfully to {output_path}")
     
     # Verify essential directories exist
     essential_dirs = ["crypto_kem", "crypto_sign", "common"]
@@ -105,10 +105,10 @@ def download_pqclean(ref="master", output_dir="pqclean"):
             missing_dirs.append(dir_name)
     
     if missing_dirs:
-        print(f"⚠️  Warning: Missing expected directories: {missing_dirs}")
+        print(f"[WARNING] Missing expected directories: {missing_dirs}")
         return False
     
-    print("✅ Directory structure verification passed")
+    print("[SUCCESS] Directory structure verification passed")
     return True
 
 def main():
