@@ -19,10 +19,8 @@ target/
 dist/
 build/
 
-# Ignore binaries (except those tracked by LFS)
-bins/*/*.so
-bins/*/*.dylib
-bins/*/*.dll
+# Allow binaries to be tracked in repository
+# (binaries are small enough - 35KB to 445KB each)
 
 # Ignore logs and temp files
 *.log
