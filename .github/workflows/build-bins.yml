@@ -165,3 +165,107 @@ jobs:
         name: binaries-android-${{ matrix.abi }}
         path: bins/android-${{ matrix.abi }}/
         retention-days: 7
+
+  commit_binaries:
+    name: Commit Binaries to Repository
+    needs: [build_native, build_android]
+    runs-on: ubuntu-latest
+    if: always() && (needs.build_native.result == 'success' || needs.build_android.result == 'success')
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Download all artifacts
+      uses: actions/download-artifact@v4
+      with:
+        path: downloaded-artifacts
+
+    - name: Organize binaries
+      run: |
+        # Create bins directory structure
+        mkdir -p bins
+        
+        # Move all downloaded artifacts to bins/
+        for artifact_dir in downloaded-artifacts/binaries-*; do
+          if [ -d "$artifact_dir" ]; then
+            target_name=$(basename "$artifact_dir" | sed 's/^binaries-//')
+            echo "Processing $target_name"
+            mkdir -p "bins/$target_name"
+            cp -r "$artifact_dir"/* "bins/$target_name/" || true
+          fi
+        done
+        
+        # Create build info file
+        cat > bins/BUILD_INFO.txt << 'EOF'
+        PQChub Binary Build Information
+        ===============================
+        
+        Build Date: $(date -u)
+        PQClean Reference: ${{ env.PQCLEAN_REF }}
+        GitHub Run ID: ${{ github.run_id }}
+        GitHub Run Number: ${{ github.run_number }}
+        Triggered by: ${{ github.event_name }}
+        
+        Successfully built platforms:
+        EOF
+        
+        find bins -type f \( -name "*.so" -o -name "*.dylib" -o -name "*.dll" \) | sed 's|bins/||g' | sort >> bins/BUILD_INFO.txt
+        
+        echo "" >> bins/BUILD_INFO.txt
+        echo "Total binaries: $(find bins -type f \( -name "*.so" -o -name "*.dylib" -o -name "*.dll" \) | wc -l)" >> bins/BUILD_INFO.txt
+        
+        # List all binaries
+        echo "Built binaries:"
+        find bins -type f \( -name "*.so" -o -name "*.dylib" -o -name "*.dll" \) -ls
+
+    - name: Configure Git
+      run: |
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+
+    - name: Commit and push binaries
+      run: |
+        git add bins/
+        
+        if git diff --staged --quiet; then
+          echo "No changes to commit"
+        else
+          git commit -m "Update binaries from PQClean ${{ env.PQCLEAN_REF }}
+
+          - Build date: $(date -u)
+          - GitHub run: ${{ github.run_id }}
+          - Trigger: ${{ github.event_name }}
+          - Platforms: $(find bins -type f \( -name "*.so" -o -name "*.dylib" -o -name "*.dll" \) | wc -l) binaries
+          
+          [skip ci]"
+          
+          git push
+          echo "Binaries committed and pushed successfully!"
+        fi
+
+    - name: Create build summary
+      if: always()
+      run: |
+        echo "## Build Summary" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "| Platform | Status | Binary |" >> $GITHUB_STEP_SUMMARY
+        echo "|----------|--------|--------|" >> $GITHUB_STEP_SUMMARY
+        
+        for platform_dir in bins/*/; do
+          if [ -d "$platform_dir" ]; then
+            platform=$(basename "$platform_dir")
+            binary_file=$(find "$platform_dir" -type f \( -name "*.so" -o -name "*.dylib" -o -name "*.dll" \) | head -1)
+            if [ -f "$binary_file" ]; then
+              size=$(ls -lh "$binary_file" | awk '{print $5}')
+              echo "| $platform | ✓ Built | $size |" >> $GITHUB_STEP_SUMMARY
+            fi
+          fi
+        done
+        
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "**Total binaries**: $(find bins -type f \( -name "*.so" -o -name "*.dylib" -o -name "*.dll" \) 2>/dev/null | wc -l)" >> $GITHUB_STEP_SUMMARY
+        echo "**PQClean ref**: ${{ env.PQCLEAN_REF }}" >> $GITHUB_STEP_SUMMARY
+        echo "**Run ID**: ${{ github.run_id }}" >> $GITHUB_STEP_SUMMARY
