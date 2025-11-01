@@ -134,9 +134,6 @@ def build_native_windows(target_platform, pqclean_source):
 #define EXPORT
 #endif
 
-// Forward declarations for available algorithms
-// These will be linked from the compiled algorithm object files
-
 // Library info functions
 EXPORT const char* pqchub_get_version(void) {
     return "PQChub 1.0.0";
@@ -146,14 +143,31 @@ EXPORT const char* pqchub_get_algorithms(void) {
     return "Kyber512,Kyber768,Kyber1024,Dilithium2,Dilithium3,Dilithium5,Falcon-512,Falcon-1024";
 }
 
-// Platform info
 EXPORT const char* pqchub_get_platform(void) {
     return "''' + target_platform + '''";
 }
 '''
     
+    # Create DEF file to export Falcon functions
+    def_file = build_dir / "pqc.def"
+    def_content = '''LIBRARY pqc
+EXPORTS
+    pqchub_get_version
+    pqchub_get_algorithms
+    pqchub_get_platform
+    PQCLEAN_FALCON512_CLEAN_crypto_sign_keypair
+    PQCLEAN_FALCON512_CLEAN_crypto_sign
+    PQCLEAN_FALCON512_CLEAN_crypto_sign_open
+    PQCLEAN_FALCON1024_CLEAN_crypto_sign_keypair
+    PQCLEAN_FALCON1024_CLEAN_crypto_sign
+    PQCLEAN_FALCON1024_CLEAN_crypto_sign_open
+'''
+    
     with open(wrapper_file, 'w') as f:
         f.write(wrapper_content)
+    
+    with open(def_file, 'w') as f:
+        f.write(def_content)
     
     source_files.append(str(wrapper_file.absolute()))
     
@@ -207,6 +221,9 @@ EXPORT const char* pqchub_get_platform(void) {
     
     # Add all object files
     link_cmd.extend(obj_files)
+    
+    # Add DEF file to export Falcon functions
+    link_cmd.append(f"/DEF:{def_file.absolute()}")
     
     # Add necessary libraries
     link_cmd.append("advapi32.lib")
