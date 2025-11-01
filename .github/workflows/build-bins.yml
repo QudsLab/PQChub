@@ -1,11 +1,7 @@
 name: Build Binaries
 
 on:
-  # Weekly build every Sunday at midnight UTC
-  schedule:
-    - cron: '0 0 * * 0'
-  
-  # Manual trigger
+  # Manual trigger only
   workflow_dispatch:
     inputs:
       pqclean_ref:
