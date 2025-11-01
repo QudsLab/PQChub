@@ -99,20 +99,20 @@ jobs:
         key: ${{ matrix.target }}
         max-size: 500M
 
-    # Download PQClean (cache disabled for now due to issues)
-    - name: Download PQClean
+    # Clone PQClean directly (simpler and more reliable than download script)
+    - name: Clone PQClean
       run: |
-        python scripts/download_pqclean.py --output pqclean-source --ref ${{ env.PQCLEAN_REF }} --force
+        git clone --depth 1 --branch ${{ env.PQCLEAN_REF }} https://github.com/PQClean/PQClean.git pqclean-source
     
     - name: Verify PQClean directory
       shell: bash
       run: |
         echo "Checking pqclean-source directory structure:"
-        ls -la pqclean-source/ || dir pqclean-source\
+        ls -la pqclean-source/ | head -20
         echo "Checking for common directory:"
-        ls -la pqclean-source/common/ || dir pqclean-source\common\
-        echo "Checking for falcon-512:"
-        ls -la pqclean-source/crypto_sign/falcon-512/clean/ || dir pqclean-source\crypto_sign\falcon-512\clean\
+        ls -la pqclean-source/common/ | head -10
+        echo "Checking for falcon-512 files:"
+        ls -la pqclean-source/crypto_sign/falcon-512/clean/*.c | head -10
 
     # Build native library
     - name: Build native library (Unix)
@@ -194,10 +194,10 @@ jobs:
         ndk-version: r25c
         add-to-path: false
 
-    # Download PQClean
-    - name: Download PQClean
+    # Clone PQClean
+    - name: Clone PQClean
       run: |
-        python scripts/download_pqclean.py --output pqclean-source --ref ${{ env.PQCLEAN_REF }} --force
+        git clone --depth 1 --branch ${{ env.PQCLEAN_REF }} https://github.com/PQClean/PQClean.git pqclean-source
 
     - name: Build Android library
       run: |
