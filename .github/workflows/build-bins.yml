@@ -99,16 +99,8 @@ jobs:
         key: ${{ matrix.target }}
         max-size: 500M
 
-    - name: Cache PQClean source
-      uses: actions/cache@v3
-      id: cache-pqclean
-      with:
-        path: pqclean-source
-        key: pqclean-${{ env.PQCLEAN_REF }}-${{ hashFiles('scripts/download_pqclean.py') }}
-
-    # Download PQClean if not cached
+    # Download PQClean (cache disabled for now due to issues)
     - name: Download PQClean
-      if: steps.cache-pqclean.outputs.cache-hit != 'true'
       run: |
         python scripts/download_pqclean.py --output pqclean-source --ref ${{ env.PQCLEAN_REF }} --force
     
@@ -119,6 +111,8 @@ jobs:
         ls -la pqclean-source/ || dir pqclean-source\
         echo "Checking for common directory:"
         ls -la pqclean-source/common/ || dir pqclean-source\common\
+        echo "Checking for falcon-512:"
+        ls -la pqclean-source/crypto_sign/falcon-512/clean/ || dir pqclean-source\crypto_sign\falcon-512\clean\
 
     # Build native library
     - name: Build native library (Unix)
@@ -200,15 +194,8 @@ jobs:
         ndk-version: r25c
         add-to-path: false
 
-    - name: Cache PQClean source
-      uses: actions/cache@v3
-      id: cache-pqclean
-      with:
-        path: pqclean-source
-        key: pqclean-${{ env.PQCLEAN_REF }}-${{ hashFiles('scripts/download_pqclean.py') }}
-
+    # Download PQClean
     - name: Download PQClean
-      if: steps.cache-pqclean.outputs.cache-hit != 'true'
       run: |
         python scripts/download_pqclean.py --output pqclean-source --ref ${{ env.PQCLEAN_REF }} --force
 
