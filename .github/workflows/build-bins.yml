@@ -1,143 +1,73 @@
-name: Build Binariesname: Build Binaries
+name: Build Binaries
 
-
-
-on:on:
-
-  workflow_dispatch:  # Manual trigger only
-
-    inputs:  workflow_dispatch:
-
-      pqclean_ref:    inputs:
-
-        description: 'PQClean branch/tag/commit to build'      pqclean_ref:
-
-        required: false        description: 'PQClean branch/tag/commit to build'
-
-        default: 'master'        required: false
-
-        type: string        default: 'master'
-
+on:
+  # Manual trigger only
+  workflow_dispatch:
+    inputs:
+      pqclean_ref:
+        description: 'PQClean branch/tag/commit to build'
+        required: false
+        default: 'master'
         type: string
 
 env:
-
-  PQCLEAN_REF: ${{ github.event.inputs.pqclean_ref || 'master' }}env:
-
   PQCLEAN_REF: ${{ github.event.inputs.pqclean_ref || 'master' }}
 
 jobs:
-
-  build_native:jobs:
-
-    name: Build (${{ matrix.target }})  build_native:
-
-    runs-on: ${{ matrix.runner }}    name: Build Native (${{ matrix.os }}-${{ matrix.arch }})
-
-    strategy:    runs-on: ${{ matrix.runner }}
-
-      fail-fast: false    strategy:
-
-      matrix:      fail-fast: false
-
-        include:      matrix:
-
-          - os: linux        include:
-
-            arch: x86_64          # Linux builds
-
-            runner: ubuntu-latest          - os: linux
-
-            target: linux-x86_64            arch: x86_64
-
-          - os: macos            runner: ubuntu-latest
-
-            arch: arm64            target: linux-x86_64
-
-            runner: macos-latest            cross: false
-
-            target: macos-arm64          - os: linux
-
-          - os: windows            arch: aarch64
-
-            arch: x64            runner: ubuntu-latest
-
-            runner: windows-latest            target: linux-aarch64
-
-            target: windows-x64            cross: true
-
-          
-
-    steps:          # macOS builds
-
-    - uses: actions/checkout@v4          - os: macos
-
-                arch: x86_64
-
-    - uses: actions/setup-python@v4            runner: macos-15-intel  # Intel runner
-
-      with:            target: macos-x86_64
-
-        python-version: '3.11'            cross: false
-
-          - os: macos
-
-    - name: Setup Linux            arch: arm64
-
-      if: matrix.os == 'linux'            runner: macos-latest  # Apple Silicon runner
-
-      run: sudo apt-get update && sudo apt-get install -y build-essential            target: macos-arm64
-
+  build_native:
+    name: Build Native (${{ matrix.os }}-${{ matrix.arch }})
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Linux builds
+          - os: linux
+            arch: x86_64
+            runner: ubuntu-latest
+            target: linux-x86_64
             cross: false
-
-    - name: Setup Windows          
-
-      if: matrix.os == 'windows'          # Windows builds
-
-      uses: ilammy/msvc-dev-cmd@v1          - os: windows
-
-      with:            arch: x64
-
-        arch: ${{ matrix.arch }}            runner: windows-latest
-
+          - os: linux
+            arch: aarch64
+            runner: ubuntu-latest
+            target: linux-aarch64
+            cross: true
+          
+          # macOS builds
+          - os: macos
+            arch: x86_64
+            runner: macos-15-intel  # Intel runner
+            target: macos-x86_64
+            cross: false
+          - os: macos
+            arch: arm64
+            runner: macos-latest  # Apple Silicon runner
+            target: macos-arm64
+            cross: false
+          
+          # Windows builds
+          - os: windows
+            arch: x64
+            runner: windows-latest
             target: windows-x64
-
-    - name: Clone PQClean            cross: false
-
-      run: git clone --depth 1 --branch ${{ env.PQCLEAN_REF }} https://github.com/PQClean/PQClean.git pqclean-source          - os: windows
-
+            cross: false
+          - os: windows
             arch: x86
+            runner: windows-latest
+            target: windows-x86
+            cross: true
 
-    - name: Build (Unix)            runner: windows-latest
-
-      if: matrix.os != 'windows'            target: windows-x86
-
-      run: |            cross: true
-
-        chmod +x scripts/build_native.sh
-
-        ./scripts/build_native.sh ${{ matrix.target }} pqclean-source    steps:
-
+    steps:
     - name: Checkout repository
+      uses: actions/checkout@v4
 
-    - name: Build (Windows)      uses: actions/checkout@v4
-
-      if: matrix.os == 'windows'
-
-      run: python scripts/build_native.py ${{ matrix.target }} pqclean-source    - name: Setup Python
-
+    - name: Setup Python
       uses: actions/setup-python@v4
-
-    - name: Upload      with:
-
-      uses: actions/upload-artifact@v4        python-version: '3.11'
-
       with:
+        python-version: '3.11'
 
-        name: ${{ matrix.target }}    # Linux-specific setup
-
-        path: bins/${{ matrix.target }}/    - name: Setup Linux build tools
-
+    # Linux-specific setup
+    - name: Setup Linux build tools
       if: matrix.os == 'linux'
       run: |
         sudo apt-get update
@@ -156,6 +86,20 @@ jobs:
     # Clone PQClean source
     - name: Clone PQClean
       run: git clone --depth 1 --branch ${{ env.PQCLEAN_REF }} https://github.com/PQClean/PQClean.git pqclean-source
+
+    - name: DEBUG - Check what was cloned
+      shell: bash
+      run: |
+        pwd
+        ls -la
+        echo "--- pqclean-source exists? ---"
+        ls -la pqclean-source/ | head -20
+        echo "--- common dir ---"
+        ls pqclean-source/common/ || echo "MISSING"
+        echo "--- falcon-512 dir ---"
+        ls pqclean-source/crypto_sign/falcon-512/clean/ || echo "MISSING"
+        echo "--- Check actual file ---"
+        test -f pqclean-source/crypto_sign/falcon-512/clean/codec.c && echo "FILE EXISTS" || echo "FILE MISSING"
 
     # Build native library
     - name: Build (Unix)
