@@ -1,14 +1,24 @@
 name: Build Binaries
 
 on:
-  # Manual trigger only
-  workflow_dispatch:
-    inputs:
-      pqclean_ref:
-        description: 'PQClean branch/tag/commit to build'
-        required: false
-        default: 'master'
-        type: string
+  # on update any files in repository
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+    paths:
+      - '**' # Trigger on any file change
+
+  # # Manual trigger only
+  # workflow_dispatch:
+  #   inputs:
+  #     pqclean_ref:
+  #       description: 'PQClean branch/tag/commit to build'
+  #       required: false
+  #       default: 'master'
+  #       type: string
 
 env:
   PQCLEAN_REF: ${{ github.event.inputs.pqclean_ref || 'master' }}
