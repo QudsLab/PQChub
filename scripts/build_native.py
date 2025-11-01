@@ -82,9 +82,9 @@ def build_native_windows(target_platform, pqclean_source):
         algo_path = pqclean_path / algo
         if algo_path.exists():
             available_algorithms.append(algo)
-            print(f"✓ Found: {algo}")
+            print(f"[OK] Found: {algo}")
         else:
-            print(f"⚠ Missing: {algo}")
+            print(f"[WARN] Missing: {algo}")
     
     if not available_algorithms:
         print(f"Error: No supported algorithms found in {pqclean_source}")
@@ -191,12 +191,12 @@ EXPORT const char* pqchub_get_platform(void) {
     success = run_command(cl_cmd, cwd=build_dir)
     
     if success and output_lib.exists():
-        print(f"✅ Successfully built: {output_lib}")
+        print(f"[SUCCESS] Successfully built: {output_lib}")
         
         # Show library info
         print(f"File size: {output_lib.stat().st_size} bytes")
         
-        print("✅ Build completed successfully")
+        print("[SUCCESS] Build completed successfully")
         
         # Clean up build directory artifacts
         for pattern in ["*.obj", "*.exp", "*.lib", "*.pdb"]:
@@ -208,7 +208,7 @@ EXPORT const char* pqchub_get_platform(void) {
         
         return True
     else:
-        print("❌ Build failed: Output library not found")
+        print("[ERROR] Build failed: Output library not found")
         return False
 
 def main():
