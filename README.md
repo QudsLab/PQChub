@@ -1,9 +1,26 @@
 # PQChub
 
+<div align="center">
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Python Support](https://img.shields.io/badge/python-3.8%2B-blue.svg)](https://www.python.org/)
 [![PQClean](https://img.shields.io/badge/source-PQClean-green.svg)](https://github.com/PQClean/PQClean)
 [![Build Status](https://github.com/QudsLab/PQChub/actions/workflows/build-bins.yml/badge.svg)](https://github.com/QudsLab/PQChub/actions/workflows/build-bins.yml)
+
+[![Platforms](https://img.shields.io/badge/platforms-Linux%20%7C%20macOS%20%7C%20Windows%20%7C%20Android-blue.svg)](https://github.com/QudsLab/PQChub)
+[![Languages](https://img.shields.io/badge/languages-Python%20%7C%20Node.js%20%7C%20Go%20%7C%20Rust%20%7C%20Java%20%7C%20C%23-orange.svg)](https://github.com/QudsLab/PQChub)
+[![NIST PQC](https://img.shields.io/badge/NIST-Post--Quantum%20Cryptography-purple.svg)](https://csrc.nist.gov/projects/post-quantum-cryptography)
+
+[![Algorithms](https://img.shields.io/badge/algorithms-Kyber%20%7C%20Dilithium%20%7C%20Falcon-red.svg)](https://github.com/QudsLab/PQChub)
+[![Pre-compiled](https://img.shields.io/badge/binaries-pre--compiled-brightgreen.svg)](https://github.com/QudsLab/PQChub/tree/main/bins)
+[![Zero Compilation](https://img.shields.io/badge/setup-zero%20compilation-success.svg)](https://github.com/QudsLab/PQChub)
+[![FFI Ready](https://img.shields.io/badge/FFI-ready-blueviolet.svg)](https://github.com/QudsLab/PQChub)
+
+[![Cross Platform](https://img.shields.io/badge/cross--platform-universal-cyan.svg)](https://github.com/QudsLab/PQChub)
+[![Auto Updates](https://img.shields.io/badge/updates-Daily%20automated-informational.svg)](https://github.com/QudsLab/PQChub)
+
+</div>
+
+
 
 Universal binary distribution for Post-Quantum Cryptography (PQC). Pre-compiled, ready-to-use binaries for multiple platforms. No compilation required—just download and use!
 
@@ -90,7 +107,7 @@ All algorithms sourced from [PQClean](https://github.com/PQClean/PQClean), provi
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
 │   PQClean       │───▶│   GitHub        │───▶│   Pre-compiled  │
 │   (upstream)    │    │   Actions       │    │   Binaries      │
-│                 │    │   (weekly)      │    │   (committed)   │
+│                 │    │   (daily)      │    │   (committed)   │
 └─────────────────┘    └─────────────────┘    └─────────────────┘
                                                        │
                                                ┌───────▼───────┐
@@ -99,7 +116,7 @@ All algorithms sourced from [PQClean](https://github.com/PQClean/PQClean), provi
                                                │  (FFI)        │
                                                └───────────────┘
 ```
-**Build Once, Use Anywhere** — Native binaries compiled weekly via GitHub Actions. Language-agnostic FFI wrappers provide zero-compilation deployment. Simply clone and use pre-built binaries with automated updates from PQClean upstream.
+**Build Once, Use Anywhere** — Native binaries compiled daily via GitHub Actions. Language-agnostic FFI wrappers provide zero-compilation deployment. Simply clone and use pre-built binaries with automated updates from PQClean upstream.
 
 ## Binary Update Schedule
 
