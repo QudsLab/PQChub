@@ -99,19 +99,19 @@ echo "CFLAGS: $CFLAGS"
 echo "LDFLAGS: $LDFLAGS"
 echo "Output: $OUTPUT_LIB"
 
-# Supported algorithms
+# Supported algorithms (NIST standardized names)
 ALGORITHMS=(
-    # Kyber KEM variants
-    "crypto_kem/kyber512/clean"
-    "crypto_kem/kyber768/clean"
-    "crypto_kem/kyber1024/clean"
+    # ML-KEM (formerly Kyber) - NIST FIPS 203
+    "crypto_kem/ml-kem-512/clean"
+    "crypto_kem/ml-kem-768/clean"
+    "crypto_kem/ml-kem-1024/clean"
     
-    # Dilithium signature variants
-    "crypto_sign/dilithium2/clean"
-    "crypto_sign/dilithium3/clean"
-    "crypto_sign/dilithium5/clean"
+    # ML-DSA (formerly Dilithium) - NIST FIPS 204
+    "crypto_sign/ml-dsa-44/clean"
+    "crypto_sign/ml-dsa-65/clean"
+    "crypto_sign/ml-dsa-87/clean"
     
-    # Falcon signature variants (may have issues on some Android ABIs)
+    # Falcon signature variants - NIST alternative
     "crypto_sign/falcon-512/clean"
     "crypto_sign/falcon-1024/clean"
 )

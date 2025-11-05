@@ -57,19 +57,19 @@ def build_native_windows(target_platform, pqclean_source):
     print(f"Architecture: {arch}")
     print(f"Output: {output_lib}")
     
-    # Supported algorithms
+    # Supported algorithms (NIST standardized names)
     algorithms = [
-        # Kyber KEM variants
-        "crypto_kem/kyber512/clean",
-        "crypto_kem/kyber768/clean", 
-        "crypto_kem/kyber1024/clean",
+        # ML-KEM (formerly Kyber) - NIST FIPS 203
+        "crypto_kem/ml-kem-512/clean",
+        "crypto_kem/ml-kem-768/clean", 
+        "crypto_kem/ml-kem-1024/clean",
         
-        # Dilithium signature variants
-        "crypto_sign/dilithium2/clean",
-        "crypto_sign/dilithium3/clean",
-        "crypto_sign/dilithium5/clean",
+        # ML-DSA (formerly Dilithium) - NIST FIPS 204
+        "crypto_sign/ml-dsa-44/clean",
+        "crypto_sign/ml-dsa-65/clean",
+        "crypto_sign/ml-dsa-87/clean",
         
-        # Falcon signature variants
+        # Falcon signature variants - NIST alternative
         "crypto_sign/falcon-512/clean",
         "crypto_sign/falcon-1024/clean",
     ]
@@ -148,7 +148,7 @@ EXPORT const char* pqchub_get_platform(void) {
 }
 '''
     
-    # Create DEF file to export ALL algorithm functions
+    # Create DEF file to export ALL algorithm functions (NIST standardized names)
     def_file = build_dir / "pqc.def"
     def_content = '''LIBRARY pqc
 EXPORTS
@@ -156,50 +156,50 @@ EXPORTS
     pqchub_get_algorithms
     pqchub_get_platform
     
-    ; Kyber512 KEM
-    PQCLEAN_KYBER512_CLEAN_crypto_kem_keypair
-    PQCLEAN_KYBER512_CLEAN_crypto_kem_enc
-    PQCLEAN_KYBER512_CLEAN_crypto_kem_dec
+    ; ML-KEM-512 (formerly Kyber512) - NIST FIPS 203
+    PQCLEAN_MLKEM512_CLEAN_crypto_kem_keypair
+    PQCLEAN_MLKEM512_CLEAN_crypto_kem_enc
+    PQCLEAN_MLKEM512_CLEAN_crypto_kem_dec
     
-    ; Kyber768 KEM
-    PQCLEAN_KYBER768_CLEAN_crypto_kem_keypair
-    PQCLEAN_KYBER768_CLEAN_crypto_kem_enc
-    PQCLEAN_KYBER768_CLEAN_crypto_kem_dec
+    ; ML-KEM-768 (formerly Kyber768) - NIST FIPS 203
+    PQCLEAN_MLKEM768_CLEAN_crypto_kem_keypair
+    PQCLEAN_MLKEM768_CLEAN_crypto_kem_enc
+    PQCLEAN_MLKEM768_CLEAN_crypto_kem_dec
     
-    ; Kyber1024 KEM
-    PQCLEAN_KYBER1024_CLEAN_crypto_kem_keypair
-    PQCLEAN_KYBER1024_CLEAN_crypto_kem_enc
-    PQCLEAN_KYBER1024_CLEAN_crypto_kem_dec
+    ; ML-KEM-1024 (formerly Kyber1024) - NIST FIPS 203
+    PQCLEAN_MLKEM1024_CLEAN_crypto_kem_keypair
+    PQCLEAN_MLKEM1024_CLEAN_crypto_kem_enc
+    PQCLEAN_MLKEM1024_CLEAN_crypto_kem_dec
     
-    ; Dilithium2 Signature
-    PQCLEAN_DILITHIUM2_CLEAN_crypto_sign_keypair
-    PQCLEAN_DILITHIUM2_CLEAN_crypto_sign
-    PQCLEAN_DILITHIUM2_CLEAN_crypto_sign_open
-    PQCLEAN_DILITHIUM2_CLEAN_crypto_sign_signature
-    PQCLEAN_DILITHIUM2_CLEAN_crypto_sign_verify
+    ; ML-DSA-44 (formerly Dilithium2) - NIST FIPS 204
+    PQCLEAN_MLDSA44_CLEAN_crypto_sign_keypair
+    PQCLEAN_MLDSA44_CLEAN_crypto_sign
+    PQCLEAN_MLDSA44_CLEAN_crypto_sign_open
+    PQCLEAN_MLDSA44_CLEAN_crypto_sign_signature
+    PQCLEAN_MLDSA44_CLEAN_crypto_sign_verify
     
-    ; Dilithium3 Signature
-    PQCLEAN_DILITHIUM3_CLEAN_crypto_sign_keypair
-    PQCLEAN_DILITHIUM3_CLEAN_crypto_sign
-    PQCLEAN_DILITHIUM3_CLEAN_crypto_sign_open
-    PQCLEAN_DILITHIUM3_CLEAN_crypto_sign_signature
-    PQCLEAN_DILITHIUM3_CLEAN_crypto_sign_verify
+    ; ML-DSA-65 (formerly Dilithium3) - NIST FIPS 204
+    PQCLEAN_MLDSA65_CLEAN_crypto_sign_keypair
+    PQCLEAN_MLDSA65_CLEAN_crypto_sign
+    PQCLEAN_MLDSA65_CLEAN_crypto_sign_open
+    PQCLEAN_MLDSA65_CLEAN_crypto_sign_signature
+    PQCLEAN_MLDSA65_CLEAN_crypto_sign_verify
     
-    ; Dilithium5 Signature
-    PQCLEAN_DILITHIUM5_CLEAN_crypto_sign_keypair
-    PQCLEAN_DILITHIUM5_CLEAN_crypto_sign
-    PQCLEAN_DILITHIUM5_CLEAN_crypto_sign_open
-    PQCLEAN_DILITHIUM5_CLEAN_crypto_sign_signature
-    PQCLEAN_DILITHIUM5_CLEAN_crypto_sign_verify
+    ; ML-DSA-87 (formerly Dilithium5) - NIST FIPS 204
+    PQCLEAN_MLDSA87_CLEAN_crypto_sign_keypair
+    PQCLEAN_MLDSA87_CLEAN_crypto_sign
+    PQCLEAN_MLDSA87_CLEAN_crypto_sign_open
+    PQCLEAN_MLDSA87_CLEAN_crypto_sign_signature
+    PQCLEAN_MLDSA87_CLEAN_crypto_sign_verify
     
-    ; Falcon-512 Signature
+    ; Falcon-512 Signature - NIST alternative
     PQCLEAN_FALCON512_CLEAN_crypto_sign_keypair
     PQCLEAN_FALCON512_CLEAN_crypto_sign
     PQCLEAN_FALCON512_CLEAN_crypto_sign_open
     PQCLEAN_FALCON512_CLEAN_crypto_sign_signature
     PQCLEAN_FALCON512_CLEAN_crypto_sign_verify
     
-    ; Falcon-1024 Signature
+    ; Falcon-1024 Signature - NIST alternative
     PQCLEAN_FALCON1024_CLEAN_crypto_sign_keypair
     PQCLEAN_FALCON1024_CLEAN_crypto_sign
     PQCLEAN_FALCON1024_CLEAN_crypto_sign_open
