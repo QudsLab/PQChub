@@ -138,51 +138,51 @@ cat > "$WRAPPER_FILE" << 'EOF'
 // Include all algorithm headers
 #include "api.h"
 
-// Kyber KEM
-#ifdef PQCLEAN_KYBER512_CLEAN_CRYPTO_PUBLICKEYBYTES
-extern int PQCLEAN_KYBER512_CLEAN_crypto_kem_keypair(unsigned char *pk, unsigned char *sk);
-extern int PQCLEAN_KYBER512_CLEAN_crypto_kem_enc(unsigned char *ct, unsigned char *ss, const unsigned char *pk);
-extern int PQCLEAN_KYBER512_CLEAN_crypto_kem_dec(unsigned char *ss, const unsigned char *ct, const unsigned char *sk);
+// ML-KEM (formerly Kyber) - NIST FIPS 203
+#ifdef PQCLEAN_MLKEM512_CLEAN_CRYPTO_PUBLICKEYBYTES
+extern int PQCLEAN_MLKEM512_CLEAN_crypto_kem_keypair(unsigned char *pk, unsigned char *sk);
+extern int PQCLEAN_MLKEM512_CLEAN_crypto_kem_enc(unsigned char *ct, unsigned char *ss, const unsigned char *pk);
+extern int PQCLEAN_MLKEM512_CLEAN_crypto_kem_dec(unsigned char *ss, const unsigned char *ct, const unsigned char *sk);
 #endif
 
-#ifdef PQCLEAN_KYBER768_CLEAN_CRYPTO_PUBLICKEYBYTES
-extern int PQCLEAN_KYBER768_CLEAN_crypto_kem_keypair(unsigned char *pk, unsigned char *sk);
-extern int PQCLEAN_KYBER768_CLEAN_crypto_kem_enc(unsigned char *ct, unsigned char *ss, const unsigned char *pk);
-extern int PQCLEAN_KYBER768_CLEAN_crypto_kem_dec(unsigned char *ss, const unsigned char *ct, const unsigned char *sk);
+#ifdef PQCLEAN_MLKEM768_CLEAN_CRYPTO_PUBLICKEYBYTES
+extern int PQCLEAN_MLKEM768_CLEAN_crypto_kem_keypair(unsigned char *pk, unsigned char *sk);
+extern int PQCLEAN_MLKEM768_CLEAN_crypto_kem_enc(unsigned char *ct, unsigned char *ss, const unsigned char *pk);
+extern int PQCLEAN_MLKEM768_CLEAN_crypto_kem_dec(unsigned char *ss, const unsigned char *ct, const unsigned char *sk);
 #endif
 
-#ifdef PQCLEAN_KYBER1024_CLEAN_CRYPTO_PUBLICKEYBYTES
-extern int PQCLEAN_KYBER1024_CLEAN_crypto_kem_keypair(unsigned char *pk, unsigned char *sk);
-extern int PQCLEAN_KYBER1024_CLEAN_crypto_kem_enc(unsigned char *ct, unsigned char *ss, const unsigned char *pk);
-extern int PQCLEAN_KYBER1024_CLEAN_crypto_kem_dec(unsigned char *ss, const unsigned char *ct, const unsigned char *sk);
+#ifdef PQCLEAN_MLKEM1024_CLEAN_CRYPTO_PUBLICKEYBYTES
+extern int PQCLEAN_MLKEM1024_CLEAN_crypto_kem_keypair(unsigned char *pk, unsigned char *sk);
+extern int PQCLEAN_MLKEM1024_CLEAN_crypto_kem_enc(unsigned char *ct, unsigned char *ss, const unsigned char *pk);
+extern int PQCLEAN_MLKEM1024_CLEAN_crypto_kem_dec(unsigned char *ss, const unsigned char *ct, const unsigned char *sk);
 #endif
 
-// Dilithium signatures
-#ifdef PQCLEAN_DILITHIUM2_CLEAN_CRYPTO_PUBLICKEYBYTES
-extern int PQCLEAN_DILITHIUM2_CLEAN_crypto_sign_keypair(unsigned char *pk, unsigned char *sk);
-extern int PQCLEAN_DILITHIUM2_CLEAN_crypto_sign(unsigned char *sm, size_t *smlen, const unsigned char *m, size_t mlen, const unsigned char *sk);
-extern int PQCLEAN_DILITHIUM2_CLEAN_crypto_sign_open(unsigned char *m, size_t *mlen, const unsigned char *sm, size_t smlen, const unsigned char *pk);
-extern int PQCLEAN_DILITHIUM2_CLEAN_crypto_sign_signature(unsigned char *sig, size_t *siglen, const unsigned char *m, size_t mlen, const unsigned char *sk);
-extern int PQCLEAN_DILITHIUM2_CLEAN_crypto_sign_verify(const unsigned char *sig, size_t siglen, const unsigned char *m, size_t mlen, const unsigned char *pk);
+// ML-DSA (formerly Dilithium) - NIST FIPS 204
+#ifdef PQCLEAN_MLDSA44_CLEAN_CRYPTO_PUBLICKEYBYTES
+extern int PQCLEAN_MLDSA44_CLEAN_crypto_sign_keypair(unsigned char *pk, unsigned char *sk);
+extern int PQCLEAN_MLDSA44_CLEAN_crypto_sign(unsigned char *sm, size_t *smlen, const unsigned char *m, size_t mlen, const unsigned char *sk);
+extern int PQCLEAN_MLDSA44_CLEAN_crypto_sign_open(unsigned char *m, size_t *mlen, const unsigned char *sm, size_t smlen, const unsigned char *pk);
+extern int PQCLEAN_MLDSA44_CLEAN_crypto_sign_signature(unsigned char *sig, size_t *siglen, const unsigned char *m, size_t mlen, const unsigned char *sk);
+extern int PQCLEAN_MLDSA44_CLEAN_crypto_sign_verify(const unsigned char *sig, size_t siglen, const unsigned char *m, size_t mlen, const unsigned char *pk);
 #endif
 
-#ifdef PQCLEAN_DILITHIUM3_CLEAN_CRYPTO_PUBLICKEYBYTES
-extern int PQCLEAN_DILITHIUM3_CLEAN_crypto_sign_keypair(unsigned char *pk, unsigned char *sk);
-extern int PQCLEAN_DILITHIUM3_CLEAN_crypto_sign(unsigned char *sm, size_t *smlen, const unsigned char *m, size_t mlen, const unsigned char *sk);
-extern int PQCLEAN_DILITHIUM3_CLEAN_crypto_sign_open(unsigned char *m, size_t *mlen, const unsigned char *sm, size_t smlen, const unsigned char *pk);
-extern int PQCLEAN_DILITHIUM3_CLEAN_crypto_sign_signature(unsigned char *sig, size_t *siglen, const unsigned char *m, size_t mlen, const unsigned char *sk);
-extern int PQCLEAN_DILITHIUM3_CLEAN_crypto_sign_verify(const unsigned char *sig, size_t siglen, const unsigned char *m, size_t mlen, const unsigned char *pk);
+#ifdef PQCLEAN_MLDSA65_CLEAN_CRYPTO_PUBLICKEYBYTES
+extern int PQCLEAN_MLDSA65_CLEAN_crypto_sign_keypair(unsigned char *pk, unsigned char *sk);
+extern int PQCLEAN_MLDSA65_CLEAN_crypto_sign(unsigned char *sm, size_t *smlen, const unsigned char *m, size_t mlen, const unsigned char *sk);
+extern int PQCLEAN_MLDSA65_CLEAN_crypto_sign_open(unsigned char *m, size_t *mlen, const unsigned char *sm, size_t smlen, const unsigned char *pk);
+extern int PQCLEAN_MLDSA65_CLEAN_crypto_sign_signature(unsigned char *sig, size_t *siglen, const unsigned char *m, size_t mlen, const unsigned char *sk);
+extern int PQCLEAN_MLDSA65_CLEAN_crypto_sign_verify(const unsigned char *sig, size_t siglen, const unsigned char *m, size_t mlen, const unsigned char *pk);
 #endif
 
-#ifdef PQCLEAN_DILITHIUM5_CLEAN_CRYPTO_PUBLICKEYBYTES
-extern int PQCLEAN_DILITHIUM5_CLEAN_crypto_sign_keypair(unsigned char *pk, unsigned char *sk);
-extern int PQCLEAN_DILITHIUM5_CLEAN_crypto_sign(unsigned char *sm, size_t *smlen, const unsigned char *m, size_t mlen, const unsigned char *sk);
-extern int PQCLEAN_DILITHIUM5_CLEAN_crypto_sign_open(unsigned char *m, size_t *mlen, const unsigned char *sm, size_t smlen, const unsigned char *pk);
-extern int PQCLEAN_DILITHIUM5_CLEAN_crypto_sign_signature(unsigned char *sig, size_t *siglen, const unsigned char *m, size_t mlen, const unsigned char *sk);
-extern int PQCLEAN_DILITHIUM5_CLEAN_crypto_sign_verify(const unsigned char *sig, size_t siglen, const unsigned char *m, size_t mlen, const unsigned char *pk);
+#ifdef PQCLEAN_MLDSA87_CLEAN_CRYPTO_PUBLICKEYBYTES
+extern int PQCLEAN_MLDSA87_CLEAN_crypto_sign_keypair(unsigned char *pk, unsigned char *sk);
+extern int PQCLEAN_MLDSA87_CLEAN_crypto_sign(unsigned char *sm, size_t *smlen, const unsigned char *m, size_t mlen, const unsigned char *sk);
+extern int PQCLEAN_MLDSA87_CLEAN_crypto_sign_open(unsigned char *m, size_t *mlen, const unsigned char *sm, size_t smlen, const unsigned char *pk);
+extern int PQCLEAN_MLDSA87_CLEAN_crypto_sign_signature(unsigned char *sig, size_t *siglen, const unsigned char *m, size_t mlen, const unsigned char *sk);
+extern int PQCLEAN_MLDSA87_CLEAN_crypto_sign_verify(const unsigned char *sig, size_t siglen, const unsigned char *m, size_t mlen, const unsigned char *pk);
 #endif
 
-// Falcon signatures
+// Falcon signatures - NIST alternative
 #ifdef PQCLEAN_FALCON512_CLEAN_CRYPTO_PUBLICKEYBYTES
 extern int PQCLEAN_FALCON512_CLEAN_crypto_sign_keypair(unsigned char *pk, unsigned char *sk);
 extern int PQCLEAN_FALCON512_CLEAN_crypto_sign(unsigned char *sm, size_t *smlen, const unsigned char *m, size_t mlen, const unsigned char *sk);
