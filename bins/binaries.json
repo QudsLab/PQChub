@@ -2,66 +2,66 @@
   "version": "1.0.0",
   "generated": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
   "pqclean_ref": "master",
-  "github_run": "19088457813",
+  "github_run": "19088551343",
   "base_url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins",
   "binaries": {
     "android-arm64-v8a": {
       "filename": "libpqc.so",
-      "size": 347456,
+      "size": 585496,
       "url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins/android-arm64-v8a/libpqc.so"
     }
 ,
     "android-armeabi-v7a": {
       "filename": "libpqc.so",
-      "size": 422168,
+      "size": 624096,
       "url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins/android-armeabi-v7a/libpqc.so"
     }
 ,
     "android-x86": {
       "filename": "libpqc.so",
-      "size": 445240,
+      "size": 704736,
       "url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins/android-x86/libpqc.so"
     }
 ,
     "android-x86_64": {
       "filename": "libpqc.so",
-      "size": 411640,
+      "size": 680320,
       "url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins/android-x86_64/libpqc.so"
     }
 ,
     "linux-aarch64": {
       "filename": "libpqc.so",
-      "size": 350040,
+      "size": 577216,
       "url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins/linux-aarch64/libpqc.so"
     }
 ,
     "linux-x86_64": {
       "filename": "libpqc.so",
-      "size": 421152,
+      "size": 625088,
       "url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins/linux-x86_64/libpqc.so"
     }
 ,
     "macos-arm64": {
       "filename": "libpqc.dylib",
-      "size": 380768,
+      "size": 558496,
       "url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins/macos-arm64/libpqc.dylib"
     }
 ,
     "macos-x86_64": {
       "filename": "libpqc.dylib",
-      "size": 402192,
+      "size": 590840,
       "url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins/macos-x86_64/libpqc.dylib"
     }
 ,
     "windows-x64": {
       "filename": "pqc.dll",
-      "size": 186880,
+      "size": 292864,
       "url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins/windows-x64/pqc.dll"
     }
 ,
     "windows-x86": {
       "filename": "pqc.dll",
-      "size": 171520,
+      "size": 235008,
       "url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins/windows-x86/pqc.dll"
     }
 
