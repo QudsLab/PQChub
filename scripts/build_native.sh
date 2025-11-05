@@ -205,7 +205,7 @@ const char* pqchub_get_version(void) {
 }
 
 const char* pqchub_get_algorithms(void) {
-    return "Kyber512,Kyber768,Kyber1024,Dilithium2,Dilithium3,Dilithium5,Falcon-512,Falcon-1024";
+    return "ML-KEM-512,ML-KEM-768,ML-KEM-1024,ML-DSA-44,ML-DSA-65,ML-DSA-87,Falcon-512,Falcon-1024";
 }
 EOF
 

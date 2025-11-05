@@ -140,7 +140,7 @@ EXPORT const char* pqchub_get_version(void) {
 }
 
 EXPORT const char* pqchub_get_algorithms(void) {
-    return "Kyber512,Kyber768,Kyber1024,Dilithium2,Dilithium3,Dilithium5,Falcon-512,Falcon-1024";
+    return "ML-KEM-512,ML-KEM-768,ML-KEM-1024,ML-DSA-44,ML-DSA-65,ML-DSA-87,Falcon-512,Falcon-1024";
 }
 
 EXPORT const char* pqchub_get_platform(void) {
@@ -148,19 +148,63 @@ EXPORT const char* pqchub_get_platform(void) {
 }
 '''
     
-    # Create DEF file to export Falcon functions
+    # Create DEF file to export ALL algorithm functions
     def_file = build_dir / "pqc.def"
     def_content = '''LIBRARY pqc
 EXPORTS
     pqchub_get_version
     pqchub_get_algorithms
     pqchub_get_platform
+    
+    ; Kyber512 KEM
+    PQCLEAN_KYBER512_CLEAN_crypto_kem_keypair
+    PQCLEAN_KYBER512_CLEAN_crypto_kem_enc
+    PQCLEAN_KYBER512_CLEAN_crypto_kem_dec
+    
+    ; Kyber768 KEM
+    PQCLEAN_KYBER768_CLEAN_crypto_kem_keypair
+    PQCLEAN_KYBER768_CLEAN_crypto_kem_enc
+    PQCLEAN_KYBER768_CLEAN_crypto_kem_dec
+    
+    ; Kyber1024 KEM
+    PQCLEAN_KYBER1024_CLEAN_crypto_kem_keypair
+    PQCLEAN_KYBER1024_CLEAN_crypto_kem_enc
+    PQCLEAN_KYBER1024_CLEAN_crypto_kem_dec
+    
+    ; Dilithium2 Signature
+    PQCLEAN_DILITHIUM2_CLEAN_crypto_sign_keypair
+    PQCLEAN_DILITHIUM2_CLEAN_crypto_sign
+    PQCLEAN_DILITHIUM2_CLEAN_crypto_sign_open
+    PQCLEAN_DILITHIUM2_CLEAN_crypto_sign_signature
+    PQCLEAN_DILITHIUM2_CLEAN_crypto_sign_verify
+    
+    ; Dilithium3 Signature
+    PQCLEAN_DILITHIUM3_CLEAN_crypto_sign_keypair
+    PQCLEAN_DILITHIUM3_CLEAN_crypto_sign
+    PQCLEAN_DILITHIUM3_CLEAN_crypto_sign_open
+    PQCLEAN_DILITHIUM3_CLEAN_crypto_sign_signature
+    PQCLEAN_DILITHIUM3_CLEAN_crypto_sign_verify
+    
+    ; Dilithium5 Signature
+    PQCLEAN_DILITHIUM5_CLEAN_crypto_sign_keypair
+    PQCLEAN_DILITHIUM5_CLEAN_crypto_sign
+    PQCLEAN_DILITHIUM5_CLEAN_crypto_sign_open
+    PQCLEAN_DILITHIUM5_CLEAN_crypto_sign_signature
+    PQCLEAN_DILITHIUM5_CLEAN_crypto_sign_verify
+    
+    ; Falcon-512 Signature
     PQCLEAN_FALCON512_CLEAN_crypto_sign_keypair
     PQCLEAN_FALCON512_CLEAN_crypto_sign
     PQCLEAN_FALCON512_CLEAN_crypto_sign_open
+    PQCLEAN_FALCON512_CLEAN_crypto_sign_signature
+    PQCLEAN_FALCON512_CLEAN_crypto_sign_verify
+    
+    ; Falcon-1024 Signature
     PQCLEAN_FALCON1024_CLEAN_crypto_sign_keypair
     PQCLEAN_FALCON1024_CLEAN_crypto_sign
     PQCLEAN_FALCON1024_CLEAN_crypto_sign_open
+    PQCLEAN_FALCON1024_CLEAN_crypto_sign_signature
+    PQCLEAN_FALCON1024_CLEAN_crypto_sign_verify
 '''
     
     with open(wrapper_file, 'w') as f:
