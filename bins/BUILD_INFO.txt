@@ -3,9 +3,9 @@ PQChub Binary Build Information
 
 Build Date: $(date -u)
 PQClean Reference: master
-GitHub Run ID: 19087960312
-GitHub Run Number: 33
-Triggered by: schedule
+GitHub Run ID: 19088457813
+GitHub Run Number: 34
+Triggered by: push
 
 Successfully built platforms:
 android-arm64-v8a/libpqc.so
