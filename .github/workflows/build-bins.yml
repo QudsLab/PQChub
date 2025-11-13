@@ -261,13 +261,18 @@ jobs:
           "binaries": {
         JSONEOF
         
-        # Add each binary to JSON
+        # Add each binary to JSON with checksums
         first=true
         for binary in $(find bins -type f \( -name "*.so" -o -name "*.dylib" -o -name "*.dll" \) | sort); do
           platform=$(echo "$binary" | sed 's|bins/||' | sed 's|/.*||')
           filename=$(basename "$binary")
           size=$(stat -c%s "$binary" 2>/dev/null || stat -f%z "$binary" 2>/dev/null)
           url="https://github.com/QudsLab/PQChub/raw/refs/heads/main/$binary"
+          
+          # Calculate checksums
+          md5sum=$(md5sum "$binary" | awk '{print $1}')
+          sha256sum=$(sha256sum "$binary" | awk '{print $1}')
+          sha512sum=$(sha512sum "$binary" | awk '{print $1}')
           
           if [ "$first" = false ]; then
             echo "," >> bins/binaries.json
@@ -278,7 +283,12 @@ jobs:
             "$platform": {
               "filename": "$filename",
               "size": $size,
-              "url": "$url"
+              "url": "$url",
+              "checksums": {
+                "md5": "$md5sum",
+                "sha256": "$sha256sum",
+                "sha512": "$sha512sum"
+              }
             }
         ITEMEOF
         done
