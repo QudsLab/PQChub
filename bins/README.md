@@ -40,19 +40,29 @@ bins/
 
 ## Binary Metadata (`binaries.json`)
 
-Auto-generated metadata file with direct download URLs:
+Auto-generated metadata file with direct download URLs and checksums:
 
 ```json
 {
   "linux-x86_64": {
     "filename": "libpqc.so",
     "size": 425984,
-    "url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins/linux-x86_64/libpqc.so"
+    "url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins/linux-x86_64/libpqc.so",
+    "checksums": {
+      "md5": "a1b2c3d4e5f6...",
+      "sha256": "abc123def456...",
+      "sha512": "xyz789uvw012..."
+    }
   },
   "windows-x64": {
     "filename": "pqc.dll",
     "size": 37376,
-    "url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins/windows-x64/pqc.dll"
+    "url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins/windows-x64/pqc.dll",
+    "checksums": {
+      "md5": "f6e5d4c3b2a1...",
+      "sha256": "456def789abc...",
+      "sha512": "012uvw345xyz..."
+    }
   }
 }
 ```
@@ -61,6 +71,10 @@ Auto-generated metadata file with direct download URLs:
 - `filename` - Binary filename
 - `size` - File size in bytes
 - `url` - Direct GitHub raw URL for download
+- `checksums` - Hash values for integrity verification
+  - `md5` - MD5 hash (128-bit)
+  - `sha256` - SHA-256 hash (256-bit)
+  - `sha512` - SHA-512 hash (512-bit)
 
 This file is used by auto-downloading wrappers (Python, Node.js) to fetch the correct binary.
 
@@ -218,6 +232,19 @@ ls -lh bins/linux-x86_64/libpqc.so
 # Check it's not a Git LFS pointer file
 file bins/linux-x86_64/libpqc.so
 # Should output: "ELF 64-bit LSB shared object" (not "ASCII text")
+
+# Verify checksums (Linux/macOS)
+md5sum bins/linux-x86_64/libpqc.so
+sha256sum bins/linux-x86_64/libpqc.so
+sha512sum bins/linux-x86_64/libpqc.so
+
+# Verify checksums (Windows PowerShell)
+Get-FileHash -Algorithm MD5 bins\windows-x64\pqc.dll
+Get-FileHash -Algorithm SHA256 bins\windows-x64\pqc.dll
+Get-FileHash -Algorithm SHA512 bins\windows-x64\pqc.dll
+
+# Compare with binaries.json
+cat bins/binaries.json | jq '.binaries."linux-x86_64".checksums'
 ```
 
 ### Build Reproducibility
