@@ -104,17 +104,18 @@ All algorithms sourced from [PQClean](https://github.com/PQClean/PQClean), provi
 ## How It Works
 
 ```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   PQClean       │───▶│   GitHub        │───▶│   Pre-compiled  │
-│   (upstream)    │    │   Actions       │    │   Binaries      │
-│                 │    │   (daily)      │    │   (committed)   │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-                                                       │
-                                               ┌───────▼───────┐
-                                               │  Language     │
-                                               │  Wrappers     │
-                                               │  (FFI)        │
-                                               └───────────────┘
+┌─────────────────┐      ┌─────────────────┐      ┌─────────────────┐
+│   PQClean       │ ───> │   GitHub        │ ───> │   Pre-compiled  │
+│   (upstream)    │      │   Actions       │      │   Binaries      │
+│                 │      │   (daily)       │      │   (committed)   │
+└─────────────────┘      └─────────────────┘      └─────────────────┘
+                                                          │
+                                                          ▼
+                                                  ┌────────────────┐
+                                                  │    Language    │
+                                                  │    Wrappers    │
+                                                  │     (FFI)      │
+                                                  └────────────────┘
 ```
 **Build Once, Use Anywhere** — Native binaries compiled daily via GitHub Actions. Language-agnostic FFI wrappers provide zero-compilation deployment. Simply clone and use pre-built binaries with automated updates from PQClean upstream.
 
