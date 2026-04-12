@@ -2,7 +2,7 @@
   "version": "1.0.0",
   "generated": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
   "pqclean_ref": "master",
-  "github_run": "24271924346",
+  "github_run": "24296413720",
   "base_url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins",
   "binaries": {
     "android-arm64-v8a": {
@@ -98,9 +98,9 @@
       "size": 292864,
       "url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins/windows-x64/pqc.dll",
       "checksums": {
-        "md5": "3784bb0196baad5ac9f72abd32ede919",
-        "sha256": "a55a3679b7437974ea6dad238aab96ae4f310881ff43d84490188f5a57e72c95",
-        "sha512": "e8847df296b91d32c09e0ca94a60c96e3a38f4155ed934deb6b2912285dae1bb770075661086778f8c8340500914ae28d4516b9d938ec2750291c5932c4e0d0c"
+        "md5": "55a71532c8632f5b485a6142bbb946f8",
+        "sha256": "767a85da6f3fdf6ac67c27ef52f1d7fdf6ab70c1a160f995d55e3fdfd296aa59",
+        "sha512": "f23a2f2278b2141e1a008385baa5563cc72bef086e439621c1c166f27879d198ab946b79ae7f489229e1c3dfb9bddbeabd86c610b4c369fd7c895cd4f96366da"
       }
     }
 ,
@@ -109,9 +109,9 @@
       "size": 235008,
       "url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins/windows-x86/pqc.dll",
       "checksums": {
-        "md5": "286996bc9a3291d86ab628bc1eab2143",
-        "sha256": "541bb825da19e17f71fba5817af9106f6d38a2e57f04b11d51ea3eabf999e1c1",
-        "sha512": "41f939e0076f997338dd60db2efd95166ac5634a50d1978abca95caf73e287e06dbe9b36deca524a14581058a5cc9ae838e2a1fff7969b30f7affaefe9f2f7f6"
+        "md5": "6005f39f30ad1bb958c4488690754136",
+        "sha256": "a34dee41d9217dba077e1b53cbe32f65bca4da90d6072dbfbca1fb1da17c2a1b",
+        "sha512": "cc868471090fa9da479cd5b471c54be28e2b8829f00527b30ef2afe68907692bd59c35a52029d371721ac5c4fa2174a337b2f566e27ff5255d18017772c81bef"
       }
     }
 
