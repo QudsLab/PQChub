@@ -2,7 +2,7 @@
   "version": "1.0.0",
   "generated": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
   "pqclean_ref": "master",
-  "github_run": "24973315995",
+  "github_run": "25030599983",
   "base_url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins",
   "binaries": {
     "android-arm64-v8a": {
@@ -32,9 +32,9 @@
       "size": 704736,
       "url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins/android-x86/libpqc.so",
       "checksums": {
-        "md5": "69a237dd5e4ef6f1d945f13cce3c1b53",
-        "sha256": "d14ca006b2b6ccf0316a0937ea564ec42cfd733403407b1fc0c59955f5df9d35",
-        "sha512": "3cacd99b6c18d6dc3c5eafbb57777c9be4d8d85a49e43ef3345fb3383c6bbf8e9b8f675404a94602bc4d46d0616c2c6185b22d8100846c0a8fcb28b732b9ffa8"
+        "md5": "b2f7494ababe4b3f5d3d95643038039d",
+        "sha256": "c685dc6ce6045f223865068d12fdf218fe2f54f0ba0d43edf770aa90b3f6092d",
+        "sha512": "ee87dd197aba8d197b085cae60eb9010e948f84a735eb5529a6a1dfaa96d66cc07b616a1bbd86286a305c6344fc9540d80066251f967739a6e8eb4b614845864"
       }
     }
 ,
@@ -51,12 +51,12 @@
 ,
     "linux-aarch64": {
       "filename": "libpqc.so",
-      "size": 577216,
+      "size": 577240,
       "url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins/linux-aarch64/libpqc.so",
       "checksums": {
-        "md5": "d458d9809ca19301ff974c7c9a61d090",
-        "sha256": "91bb467eb46acccfa91238190fabda9f3c337b0e94adc753bd9dfad7b46eecc8",
-        "sha512": "47315b93de3836eb3f82599c6717b5406852a9f793c7e7a820bdb65a3ddd03acb17a5ac6593b7b1177dc5c9102ad809982c11b71cedaf4abe5b960bff7d3c35b"
+        "md5": "f62ff89682ee46e4f1f5cf360e62cca0",
+        "sha256": "c914fe9b7cba4d5e892a90ca133612c2c7af89653f3e1de0b25dbe10af35c1d8",
+        "sha512": "66a58b708f3f844ff3f1544c6d77bb5d9760686aef278850ee4fc957894cddc59f09490ae8d29c49c991b4dc0d542788809d5faea26d8bc58e54ed479e9d6f5c"
       }
     }
 ,
@@ -65,9 +65,9 @@
       "size": 625088,
       "url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins/linux-x86_64/libpqc.so",
       "checksums": {
-        "md5": "a9bd2b77f4bf9b8ef0494f5998146c97",
-        "sha256": "31e4bf97dbc0d86ee5a50a3cda155b9f56b89e78a13596774fecb4248ab24dd8",
-        "sha512": "57a71ab7a94ee8d755627caf1f745f9d6220f957629ee9d1aa7e6161c6bcdb2b2b31ecfd70a33d21c20738d78d17ab159082ca1d27bf32d2952495eae24dcc55"
+        "md5": "51413d0d0fbc5d82b9b916e6f1f9817b",
+        "sha256": "74d39cfde534c62946a1cc8c2a3bd820ce89a8c2969e8e1b33f8d92c12629378",
+        "sha512": "b81d390389ab4590da7e462b6fd9349de096e5f94787e9bc9917e117d70b27c7b9f445591af7c6f12a484448b595a5386714e2119fc79252d3ba56e4a9772775"
       }
     }
 ,
@@ -98,9 +98,9 @@
       "size": 292864,
       "url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins/windows-x64/pqc.dll",
       "checksums": {
-        "md5": "f21e177583f0a66ce544dab2ef8caccf",
-        "sha256": "076367ecebf9db49db9791a81df88d1a60db656ab672254ee7b3fadec9792866",
-        "sha512": "0df8cda9ad91604a5b451ed8c4d947c5ce21f15d03c2a6f926c486043f9f31c833f5a5c0c351fdea3bd7e7e66429909f2a4e10caff94bcb2a3adf441bae8a42e"
+        "md5": "f79a7a2efa7e1b6d3395a5cf0df016c7",
+        "sha256": "0a5c704ba31fded9bbd89cbf17a48835ca62b6d6b44c572f8de3d520ce6186c6",
+        "sha512": "b76d07bc7575f4d6dd2ed89e5e7520f1df76498d05d0b392f5661e41211e08442a70a859afa5d4d786b8d36c2db7758ef4aa2749461376817ace999da3b02acf"
       }
     }
 ,
@@ -109,9 +109,9 @@
       "size": 235008,
       "url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins/windows-x86/pqc.dll",
       "checksums": {
-        "md5": "be35b21a71ee1e5635641c0f7d951e9b",
-        "sha256": "58f508e0f6d30ddb4905772fd0b403b245e6f294860c8e7381b86da3e5510817",
-        "sha512": "66d2573b9c6803d4ce6120181d0671ac3bf4f744393bdf1f027d8cbd4fb5608e263af8b5920f6e526d1620721b6f5e4fa5e3aeb3eebb99094e6f7163fb7937c8"
+        "md5": "7ea451570c4d3c8769e62dd5ae920617",
+        "sha256": "f5e835bff1a59f8aaced298a39809dbfb3c73418f32f38fd598fe2b801ad2c09",
+        "sha512": "1c276708882d3a15575a8b2cedbd00ac8a3d7ac4d51447fbf4c03eb0686e58f823e3ea59bf7d31a48893a82b478fd82cc7bc8ba6d60a7551d7589d785d38f74a"
       }
     }
 
