@@ -2,7 +2,7 @@
   "version": "1.0.0",
   "generated": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
   "pqclean_ref": "master",
-  "github_run": "26429167080",
+  "github_run": "26487792418",
   "base_url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins",
   "binaries": {
     "android-arm64-v8a": {
@@ -18,12 +18,12 @@
 ,
     "android-armeabi-v7a": {
       "filename": "libpqc.so",
-      "size": 624160,
+      "size": 624144,
       "url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins/android-armeabi-v7a/libpqc.so",
       "checksums": {
-        "md5": "23998909d96c7a235e48b45598552485",
-        "sha256": "f9ddeab9719a176be42955ef3d5b5a6d3a9b1aeed1f73d63af3751aa45d71c38",
-        "sha512": "63b5cba1f015ad41e26936671273f44361e20cf715403533cf15ab55c0d00f321e0a5e1e3eb07a5452106c38347f8e127274304d95c558b7798cd871aa1cd98c"
+        "md5": "f3bce0de82236e47a25770c3bfa242e1",
+        "sha256": "0112df046c52ff230cc1f5e55771506e7b94b280c26d9f138d8095aae5b26a48",
+        "sha512": "7413e86d70fa9840acaae0b339ab6503af3c4e238e0e8cb88e398fcbb6be794a8a72fa6646667fdb1f14739245821ac7cf5fb1a4499178703a3d99f27203e0c1"
       }
     }
 ,
@@ -98,9 +98,9 @@
       "size": 292864,
       "url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins/windows-x64/pqc.dll",
       "checksums": {
-        "md5": "7c49eb4b91f2c5c9b10383d59183cced",
-        "sha256": "2265f5eec4f952a67e319c37b4334d0159cb0a1929a7670935090570d3c6ff44",
-        "sha512": "a506fe39399b4aa39e64e6d27704df648c2332fb470b333ff6aca735ba69a3f206ac03e5100a3ac2aa247edd47845d14ede77f054cb1b96b181d65c6393e0235"
+        "md5": "ce62c8678c0e74b0acdefa69d0f7f7dd",
+        "sha256": "b246705c69840b3f4303df5d5d287ce20a54aea01374b3b63f574e076ad7c9be",
+        "sha512": "16a693446d130a6d4393d629fbc1b564c9c6c86a0b12219ad107d0cab68e6ebe8996b3469e0c058107f733a293b21c9ccc209ee0af9943f645843ec60a98c01a"
       }
     }
 ,
@@ -109,9 +109,9 @@
       "size": 235008,
       "url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins/windows-x86/pqc.dll",
       "checksums": {
-        "md5": "e59b8d80af4ea583b1d3116392404a3e",
-        "sha256": "61b2e94d5b73613d57e2a6991ab4cbe8852397a82c9a4f1928cbb0914b589a0b",
-        "sha512": "e7571e13fec6c8f74bb9b653b13ca5b3765b979e1ed4186844fc2af134f02b0e09d5d9ab3d59217ecd812f13c60b42247c5140a3aa2db9dacbc4141f1ffd9120"
+        "md5": "5a059214e26998387d96a53d4ea4a988",
+        "sha256": "4c6f341ccec809ce38795659f7f7a8a26edf097de2dfceaefe191b84b2d526aa",
+        "sha512": "a02a58d88f8738fe2719f977f516ec868331bf19d37fc5a5f6c4387399747302544ff19fdf873088cb91bb5f177319f820709b50ad4db3dd28cfd67cdd249864"
       }
     }
 
