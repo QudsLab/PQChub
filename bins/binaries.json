@@ -2,7 +2,7 @@
   "version": "1.0.0",
   "generated": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
   "pqclean_ref": "master",
-  "github_run": "28764215067",
+  "github_run": "28837404459",
   "base_url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins",
   "binaries": {
     "android-arm64-v8a": {
@@ -73,12 +73,12 @@
 ,
     "macos-arm64": {
       "filename": "libpqc.dylib",
-      "size": 558496,
+      "size": 543264,
       "url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins/macos-arm64/libpqc.dylib",
       "checksums": {
-        "md5": "a14febec6fed0339f43d0073120e35e9",
-        "sha256": "3391051110c2eff19603770851202293ca7fae1b24041ac2e9720b6c45a2d0a7",
-        "sha512": "733f19b3351d85c35ac751c7e7c0719f8ed3bb61da8b7f7d89a08a5912baf1a126b75ecb44761b76766836b9dfe9855be50cd801adb2fbc7f21fe89f51de5e4d"
+        "md5": "e74e148a9259af9fb5abf3bbd99d30d3",
+        "sha256": "58cfd860e7c0cfbbe56555c88857a569547fb67f786ff0c9bd306a4d81d001e6",
+        "sha512": "d0e77794b04b09130b39d771fbc34d010349161bc214df1a1bc90ade39d96d1a656d5ba942985720410dd1caef3a25d0a840e23ea56995617736ebc16a72d41c"
       }
     }
 ,
@@ -98,9 +98,9 @@
       "size": 328704,
       "url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins/windows-x64/pqc.dll",
       "checksums": {
-        "md5": "74c63bc07e23eeafd58e4a101cba09cd",
-        "sha256": "3f8e816fa6c1baf5acef88e3393e7ba57a669b54fee0cecfd845b7da193c8093",
-        "sha512": "bd2a9080b595b09c4b1fa7d7e2fe9772b3829040fb583716d685a55a48c52a970660966dfc8783acb62004cd84edf14925e3d7628d7c0d59cb4538b56bc5ea48"
+        "md5": "6c9e8c3586a725df1da35de4a7dc7714",
+        "sha256": "9fae5a8cca048294122ea5116457042f4e92648ed62c4c8c9c7bb5d271a9b6cd",
+        "sha512": "f67da0a37824ca97dba4d83a959229fa7f0a3133f4736459f60a5e26d4e32524ccbc595b8d532b9475d0d994ba24a2563c979cd8a7847aec081ed7552570e5c3"
       }
     }
 ,
@@ -109,9 +109,9 @@
       "size": 237056,
       "url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins/windows-x86/pqc.dll",
       "checksums": {
-        "md5": "7be5c2ba1132cb31485b4d4bd48bf116",
-        "sha256": "f692156ac349988d7e47755c220062d012710966d393546cb9fd5c3095410858",
-        "sha512": "cdbca6bba7a9589470e857d3674b3d281f839ce3f7247e22ab0c822aa67485e0eaf9b0f5c70b0a4e140dab3eda2971c2ad0a4312c6e8bb2060186d38f88e4cf6"
+        "md5": "382b0bfef6a05830f635587a1a4f9d29",
+        "sha256": "3f20e510b17a4125f9eabdbbb24c672fe3148cbd52442e80266ca7b622fa5751",
+        "sha512": "1337a855ce9de94e797304347ca03160451bc0879bb708c9bf1c00bf33c9ec60958bda238c83497181d94c09c193f6f28ec687f53bd2bfef344ed55414c16525"
       }
     }
 
