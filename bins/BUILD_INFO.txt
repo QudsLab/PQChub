@@ -3,8 +3,8 @@ PQChub Binary Build Information
 
 Build Date: $(date -u)
 PQClean Reference: master
-GitHub Run ID: 36372385471
-GitHub Run Number: 365
+GitHub Run ID: 36518540421
+GitHub Run Number: 366
 Triggered by: schedule
 
 Successfully built platforms:
