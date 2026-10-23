@@ -2,7 +2,7 @@
   "version": "1.0.0",
   "generated": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
   "pqclean_ref": "master",
-  "github_run": "39713938789",
+  "github_run": "39892448071",
   "base_url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins",
   "binaries": {
     "android-arm64-v8a": {
@@ -10,9 +10,9 @@
       "size": 585496,
       "url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins/android-arm64-v8a/libpqc.so",
       "checksums": {
-        "md5": "f1066adb7e8faff5c02b1efb30bfc818",
-        "sha256": "c079492a43ecbb20c9f38df4f13b867d399ee39f7d13365461ab916cf8d835a8",
-        "sha512": "cadfd3edf54d670269298274fd7b8b5e45bb5dd8c1fe738ec740721e996a1ac4b17b838fbbad4269a561ac65925190cc36797708dcf659d588ff45b40626869c"
+        "md5": "f0c19b5e5e3afbe86ecf7ff930b215ca",
+        "sha256": "310428565430fbea95b16521788419770813d03eee811f44359db335c4925d17",
+        "sha512": "f8da72b3e1338b565bbc86065843455cad1dd1f906c7f6d93a8d495d01b0dc220e8601d278db005568d2976f2d5391aa370e12ea49ab3aff6a34610817411f40"
       }
     }
 ,
@@ -43,9 +43,9 @@
       "size": 680304,
       "url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins/android-x86_64/libpqc.so",
       "checksums": {
-        "md5": "406ba4a6e7640424dc0e4022f3138a5a",
-        "sha256": "435ff7a1ccbed818a81611b8f251e65a7f0e3a9e6e16e509a985c8bb795c96f3",
-        "sha512": "5e1a6c1870f3817b6d374f1fd94ff8d9cd8e19068d417055fd9214b7fcda8f26d9c76a8e1f9b502c9a6ec33113666be0f9d9213402ee6fb2269c8c4301f71fd4"
+        "md5": "562edcd1adaaaf9d94f37f4b25dd60c8",
+        "sha256": "4ae48aea417f45c9077488bb8c5c4d5e82472344bdecc2b13e9f6d6c6930b1a1",
+        "sha512": "4f02836980166d0dd7c4deca8a03e0ea538d6d4f7717081d5d42965f92ac53d36fb238862ce17d31ca8f94b214aeb1006b9bac8f247751e6741a59a5786212c0"
       }
     }
 ,
@@ -54,9 +54,9 @@
       "size": 577240,
       "url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins/linux-aarch64/libpqc.so",
       "checksums": {
-        "md5": "0c4ed5cace3cb442f51a473afa1def1c",
-        "sha256": "0fae5e8b6b6d0c97414d9cd819cb8a1fdc1f3776bdea1fbb1b785c92b47aa434",
-        "sha512": "fbe77bd7d96b40aa060c79ff1776b055ebd9c7c0bde7b8e293a4e562aca03e37d769198250a160be43035c6eeb6f989acb67ad1535e14851a9619c9f4f295a4b"
+        "md5": "0d856713879ec328aa8a21a899cf2bca",
+        "sha256": "e3cd0a7eaeb54fb5bdc660161a5f444c4982469a41210bb0eac69a57ea311a52",
+        "sha512": "59364b66901d44650f42fcc7790dc41147a7eb11bad22f14792c93c3b2f2376c342dfc96f172728d314aac092cb81db26847ed7d3688d767465b983abbf3e66c"
       }
     }
 ,
@@ -98,9 +98,9 @@
       "size": 328704,
       "url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins/windows-x64/pqc.dll",
       "checksums": {
-        "md5": "c9f8faf1e3acf3713468d4a90d7f64a4",
-        "sha256": "8e2625e4c489f89e38c77ce1c2c86e6441722393bd3b4f143d62f7e17ad47ab2",
-        "sha512": "ce9123b340960d570d6ef28aa17144b2f745fbf2a5f99e23e37bf5a6283ea269f7ed3ac81cde8be36181ab9389de6025f92f13f44564d6570060b6ec3191c376"
+        "md5": "0f0b1383d4e46f0247e3b181f2c70939",
+        "sha256": "4fc3427ddd14b44fcf19bd356ef5816370a902a5a2f377d71dc1ee42d55bf528",
+        "sha512": "b700c9c88e78ffe012b224322e58f62e9274dff9545430bad685c49d2bf73e9331dbb393c983aee0b462ce376609de5075ac230dc98923be6c80858b3275ae06"
       }
     }
 ,
@@ -109,9 +109,9 @@
       "size": 237056,
       "url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins/windows-x86/pqc.dll",
       "checksums": {
-        "md5": "d8c7ffeaba93e6ca787161368c2ab65f",
-        "sha256": "9f5a651696934a063871d4b452594520dd0b2ac6b256e22a0803541154b6ab87",
-        "sha512": "b48b58691fb3b8cfa853f12b267019a817857a05a7a70955561c49b55e37ae10afa65c17480ba1153e8e3830635f3784182b9bbf37edb395948b3c7d9a5df234"
+        "md5": "b189201c12c6edc9a272a865377fead3",
+        "sha256": "846432e3221712e3ba22e39b204505ee738536522e420d677cc1779c0eb727e2",
+        "sha512": "93bb9b7fdaab3d84984b173800cc601629263d448e90b10da814b0b11d434f51b100c2f40bc6f1139612f21ff47d101e20705acbce6b84285624098a618a7554"
       }
     }
 
