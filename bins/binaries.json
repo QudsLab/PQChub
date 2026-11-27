@@ -2,7 +2,7 @@
   "version": "1.0.0",
   "generated": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
   "pqclean_ref": "master",
-  "github_run": "45768128369",
+  "github_run": "45950702501",
   "base_url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins",
   "binaries": {
     "android-arm64-v8a": {
@@ -54,9 +54,9 @@
       "size": 577592,
       "url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins/linux-aarch64/libpqc.so",
       "checksums": {
-        "md5": "334902618170c4f1935ea32ca7299345",
-        "sha256": "77589157e2123f91f1ac3e6a1326a488798bf4f2cf507017214464815613a3e5",
-        "sha512": "d12f21d28469f62cbc3d0ba778be8736cb11fa50fd2ed98330600f00d883e47e2fdfe846132970f64a5dd4165b523229c6fae9d401142289ba1eb27785167b30"
+        "md5": "417fd49a99007c7f9c271fbddf613fdf",
+        "sha256": "75eae4bbf971ffbd065a123cd0e252d53da83c1d60932ebf264929cbb5529820",
+        "sha512": "ddc19bcd38a98c81e94a28f779b57ef78481ed6d020ba873c7ce5a782b61dc705152b2d210f548f8317c73cb3306fd1dba0c4356ca8b5e246c200f7669baed56"
       }
     }
 ,
@@ -98,9 +98,9 @@
       "size": 338432,
       "url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins/windows-x64/pqc.dll",
       "checksums": {
-        "md5": "0b9e3aed905d253e9888328584a384f6",
-        "sha256": "2d9f5e82919fff46f962b65a0eb2788d71a3acc8078a79e2ded71de33256886e",
-        "sha512": "7312ea373bbe2676d02ba888209cbf2385605ef3298bd0fd905ea9379d511de4e03f2f7a7628f9550443e057eb5a4e079b2623331ca7b18e415d4137535f1f91"
+        "md5": "089b8b50a60f7b8073eaadcac139d0f9",
+        "sha256": "a4eb84f07dd3511ff7825dfec1e1f94b6abc8a7dfbb0e5c2c4940aceb26839dd",
+        "sha512": "8e7e36925645fad6a457294a948ff5aecc70035b39000f0e6605915931f9736801c4837be8d66d19e01ac8fd59ffd00ded28d52ca449267f8f01e39bcc9c403c"
       }
     }
 ,
@@ -109,9 +109,9 @@
       "size": 235008,
       "url": "https://github.com/QudsLab/PQChub/raw/refs/heads/main/bins/windows-x86/pqc.dll",
       "checksums": {
-        "md5": "0a74ed2321d90a68b03a1b652ae31ab9",
-        "sha256": "da2f4f279c4c36267b0a8334bbc5ebadd4962762b902c9a3d222971e47334cc6",
-        "sha512": "3ce53e9dc5f5f3cb27e641987a115aae6ff7d3c6f9159cf038decd7d3a7a5a2b2025e87132d9b17b4e5dc4b541dc9e3717546e23b077af480f94a0cec7fd3d28"
+        "md5": "1235ffe319732cacf60201581d40a5f0",
+        "sha256": "f3bd3b605087f46acd817aac938eccdd9ad9f88c5e1dd0c8ea3b54bf95f05106",
+        "sha512": "c3cc20826e8d959abc1c6b44be558fb89664f9fb4699ba59547cf5486d28be82e19b9a2a45212f90b8fa4301a428a10cfeb3b33cb243082547977d155d7a1ce0"
       }
     }
 
